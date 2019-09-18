@@ -1,23 +1,31 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import pandas as pd
 
 ##############################       PART 1      ###############################
 
 # (1,2) Download and load datasets into numpy objects
 
-wine_dataset = np.genfromtxt('winequality-red.csv', delimiter=';')[1:]
+def load_dataset(file_name, delimiter):
+    dataset = np.genfromtxt(file_name, delimiter=delimiter)[1:]
+    return dataset
 
-breast_cancer_dataset = np.genfromtxt('breast-cancer-wisconsin.data', \
-    delimiter=',')[1:]
+def clean_dataset_nan(dataset):
+    return dataset[~np.isnan(dataset).any(axis=1)]
 
+wine_dataset = load_dataset('winequality-red.csv', ';')
+
+breast_cancer_dataset = load_dataset('breast-cancer-wisconsin.data', ',')
+
+for value in wine_dataset[:, -4]:
+    if value > 14 or value < 1:
+        print(value)
 # (3) Clean the data (Unsure how to do yet??)
 
 print('Wine Dataset before cleaning:', wine_dataset.shape)
 print('Breast Cancer Dataset before cleaning:', breast_cancer_dataset.shape, '\n')
 
-wine_dataset = wine_dataset[~np.isnan(wine_dataset).any(axis=1)]
-breast_cancer_dataset = breast_cancer_dataset[~np.isnan(breast_cancer_dataset).any(axis=1)]
+wine_dataset = clean_dataset_nan(wine_dataset)
+breast_cancer_dataset = clean_dataset_nan(breast_cancer_dataset)
 
 print('Wine Dataset after cleaning:', wine_dataset.shape)
 print('Breast Cancer Dataset after cleaning:', breast_cancer_dataset.shape)
@@ -56,27 +64,3 @@ print('Breast Cancer Dataset after cleaning:', breast_cancer_dataset.shape)
 # plt.subplots_adjust(hspace=1)
 #
 # plt.show()
-
-
-##############################       PART 2      ###############################
-
-class LogisticRegression:
-    def __init__(self):
-        print()
-
-    def fit(self):
-        return
-
-    def predict(self):
-        return
-
-
-class LDA:
-    def __init__(self):
-        print()
-
-    def fit(self):
-        return
-
-    def predict(self):
-        return
