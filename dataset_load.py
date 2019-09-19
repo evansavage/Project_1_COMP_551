@@ -13,13 +13,7 @@ def clean_dataset_nan(dataset):
     return dataset[~np.isnan(dataset).any(axis=1)]
 
 wine_dataset = load_dataset('winequality-red.csv', ';')
-
 breast_cancer_dataset = load_dataset('breast-cancer-wisconsin.data', ',')
-
-for value in wine_dataset[:, -4]:
-    if value > 14 or value < 1:
-        print(value)
-# (3) Clean the data (Unsure how to do yet??)
 
 print('Wine Dataset before cleaning:', wine_dataset.shape)
 print('Breast Cancer Dataset before cleaning:', breast_cancer_dataset.shape, '\n')
