@@ -30,9 +30,21 @@ print(lr_cancer.update_coefficients())
 # lr_cancer.fit()
 
 def evaluate_acc(data_points, true_lables, target_lables):
+  # make sure data input in correct types (np.arrays)
   if not isinstance(data_points, np.array):
     raise "Data points must be of type numpy array"
   if not isinstance(true_lables, np.array):
     raise "Data points must be of type numpy array"
   if not isinstance(target_lables, np.array):
     raise "Data points must be of type numpy array"
+
+  count = data_points.shape()[0]
+
+
+
+
+
+def k_fold_cross_validation(k, dataset, model):
+
+  training_data = 0;
+  validation_data = 0;
