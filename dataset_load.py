@@ -5,8 +5,12 @@ import matplotlib.pyplot as plt
 
 # (1,2) Download and load datasets into numpy objects
 
-def load_dataset(file_name, delimiter):
-    dataset = np.genfromtxt(file_name, delimiter=delimiter)[1:]
+def load_dataset(file_name, delimiter, *remove_first_index, **kwargs):
+    if remove_first_index:
+        dataset = np.genfromtxt(file_name, delimiter=delimiter)[1:]
+        dataset = dataset[:, 1:]
+    else:
+        dataset = np.genfromtxt(file_name, delimiter=delimiter)[1:]
     return dataset
 
 def clean_dataset_nan(dataset):
