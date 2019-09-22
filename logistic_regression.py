@@ -4,46 +4,55 @@ import numpy as np
 
 class LogisticRegression(object):
     def __init__(self, dataset, iter, learning_rate):
-        dataset = np.asarray(dataset)
-        self.features = dataset[:, :-1]
-        self.labels = dataset[:, -1]
+        # dataset = np.asarray(features)
+        # self.labels = dataset[:,-1]
+        self.dataset = dataset
         self.iter = iter
         self.learning_rate = learning_rate
 
     def threshold(self, value):
-        for i in range(0, len(self.labels)-1):
-            if self.labels[i] > value:
-                self.labels[i] = 1
+        for row in self.dataset:
+            if row[-1] > value:
+                row[-1] = 1
             else:
-                self.labels[i] = 0
+                row[-1] = 0
 
     def fit(self):
         N = len(self.labels)
         for i in range(0, N-1):
             print(self.labels[i])
+    def show(self):
+        print(self.dataset)
+        # print(self.labels[200:300])
 
     def update_coefficients(self):
-        w = [0 for i in range(len(self.features[0]) + 1)]
+        w = [0.0 for i in range(len(self.dataset[0]))]
         for i in range(self.iter):
-            for j, row in enumerate(self.features):
+            sum_error = 0
+            for row in self.dataset:
                 sigma = sigmoid(row, w)
-                error = self.labels[j] - sigma
-                w[0] = w[0] + self.learning_rate * error * sigma * (1 - sigma)
-                for k in range(1, len(row)):
-                    w[k] = w[k] + self.learning_rate * error * sigma * (1 - sigma) * row[k-1]
-
+                # print(sigma, row[-1])
+                error = row[-1] - sigma
+                sum_error += error**2
+                # print(error)
+                w[0] = w[0] + self.learning_rate * error * sigma * (1.0 - sigma)
+                for k in range(len(row)-1):
+                    w[k+1] = w[k+1] + self.learning_rate * error * sigma * (1.0 - sigma) * row[k]
+            print(sum_error)
         return w
 
+
     def predict(self):
+        # for row in
         return
 
 
 
 def sigmoid(x, w):
     a = w[0]
-    for i in range(len(x)):
+    for i in range(len(x) - 1):
         a += w[i+1]*x[i]
-    return 1 / (1 + math.exp(-a))
+    return 1.0 / (1.0 + math.exp(-a))
 
 
 # lr = LogisticRegression([[1,2,3],[4,5,6],[7,8,9]])
