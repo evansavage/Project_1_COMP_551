@@ -99,13 +99,7 @@ def k_fold_cross_validation(k:int ,  X:np.array,  Y:np.array, model):
     training_data = np.vstack((training_data_1, training_data_2))
     training_labels = np.vstack((training_labels_1, training_labels_2))
     # get validaiton data
-<<<<<<< HEAD
-    validation_data = x[slices[fold][0] : slices[fold][1] + 1, :]
-    validation_labels = y[slices[fold][0] : slices[fold][1] + 1, :]
 
-  training_data = 0;
-  validation_data = 0;
-=======
     validation_data = X[slices[fold][0] : slices[fold][1] + 1, :]
     validation_labels = Y[slices[fold][0] : slices[fold][1] + 1, :]
 
@@ -120,4 +114,3 @@ def k_fold_cross_validation(k:int ,  X:np.array,  Y:np.array, model):
   average_error = total_error / k
   print(f"===================== \nFINISHED KFOLD. Average model accuracy: {average_error}")
   return average_error
->>>>>>> 3e6d967afc9cbda5dee268fa9afbd050138cd07a
