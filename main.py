@@ -17,6 +17,7 @@ breast_cancer_dataset = clean_dataset_nan(breast_cancer_dataset)[1:]
 lr_wine = LogisticRegression(wine_dataset, 100, 0.3)
 lr_cancer = LogisticRegression(breast_cancer_dataset, 1000, 0.01)
 lr_wine.threshold(5)
+lr_wine.normalize()
 lr_wine.show()
 
 # lda_wine = LinearDiscriminantAnalysis(wine_dataset)
@@ -24,7 +25,7 @@ lr_wine.show()
 # print(breast_cancer_dataset)
 
 
-print(lr_wine.update_coefficients())
+# print(lr_wine.update_coefficients())
 #
 #
 # lr_cancer.threshold(3)

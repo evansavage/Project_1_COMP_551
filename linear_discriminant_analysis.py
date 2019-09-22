@@ -14,7 +14,18 @@ class LinearDiscriminantAnalysis:
             -- Y: labels
             @return:
             -- None (fits internal perameters to model)"""
+        # 1- Compute the total mean vector mu and the mean vector for each class muc(d dimensions)
+        mu = np.mean(X, axis=0).values
+        mu_k = []
 
+        # 2- Compute the scatter matrices (in between and within class)
+        # within_class_scatter=  sum (scatter_per_class)
+        # scatter_per_class = sum((x-mi)(x-mi). T)
+        # 3- Compute the eigenvectors and eigenvalues for scatter matrices
+
+        # 4- Select the EigenVectors of the cooresponding k largest eigenvalues to create d*k matrix w
+
+        # 5- Use matrix w to transform n*d dataset x into lower n*k dataset y
         return None
 
     def predict(self, X_new:np.array):
