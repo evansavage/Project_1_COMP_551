@@ -14,6 +14,7 @@ breast_cancer_dataset = clean_dataset_nan(breast_cancer_dataset)[1:]
 lr_wine = LogisticRegression(wine_dataset, 100, 0.3)
 lr_cancer = LogisticRegression(breast_cancer_dataset, 1000, 0.01)
 lr_wine.threshold(5)
+lr_wine.normalize()
 lr_wine.show()
 
 # lda_wine = LinearDiscriminantAnalysis(wine_dataset)
@@ -21,7 +22,7 @@ lr_wine.show()
 # print(breast_cancer_dataset)
 
 
-print(lr_wine.update_coefficients())
+# print(lr_wine.update_coefficients())
 #
 #
 # lr_cancer.threshold(3)
@@ -76,8 +77,5 @@ def k_fold_cross_validation(k, X, Y, model):
     validation_data = x[slices[fold][0] : slices[fold][1] + 1, :]
     validation_labels = y[slices[fold][0] : slices[fold][1] + 1, :]
 
-<<<<<<< HEAD
   training_data = 0;
   validation_data = 0;
-=======
->>>>>>> 9a28ede69ef696b81793e0b04a8efb6838f2f25c
