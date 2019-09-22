@@ -27,8 +27,8 @@ breast_cancer_dataset = clean_dataset_nan(breast_cancer_dataset)[1:]
 # lda_cancer = LinearDiscriminantAnalysis(breast_cancer_dataset)
 # print(breast_cancer_dataset)
 
-w = lr_wine.update_coefficients()
-lr_wine.check_temp(w)
+# w = lr_wine.update_coefficients()
+# lr_wine.check_temp(w)
 #
 #
 # lr_cancer.threshold(3)
@@ -42,6 +42,9 @@ lr_wine.check_temp(w)
 ## TESTING DATA TODO: Comment out and remove before submitting
 x = np.array([[1,2],[3,4],[5,6],[7,8],[9,10],[11,12],[13,14],[15,16],[17,18],[19,20]])
 y = np.array([1,1,103,104,105, 106, 107, 108, 109, 110]).reshape(-1,1)
-m = LinearDiscriminantAnalysis()
-k_fold_cross_validation(5, x, y, m)
+
+# wine_LR = LogisticRegression(2000, 0.3)
+cancer_LR = LogisticRegression(100, 0.01)
+# k_fold_cross_validation(5, wine_dataset[:,:-1], wine_dataset[:, -1].reshape(-1,1), wine_LR, 5)
+k_fold_cross_validation(5, breast_cancer_dataset[:,:-1], breast_cancer_dataset[:,-1].reshape(-1,1), cancer_LR, 3)
 print("DONE")
