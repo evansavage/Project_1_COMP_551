@@ -3,52 +3,47 @@ import numpy as np
 
 
 class LogisticRegression(object):
-    def __init__(self, dataset, iters, learning_rate):
+    def __init__(self, iter:int, learning_rate:float):
         # dataset = np.asarray(features)
         # self.labels = dataset[:,-1]
-        dataset = np.insert(dataset, 0, 1, axis=1)
-        self.dataset = dataset
-        self.iters = iters
+        # dataset = np.insert(dataset, 0, 1, axis=1)
+        # self.dataset = dataset
+        self.iter = iter
         self.learning_rate = learning_rate
+        self.w = []
 
-    def threshold(self, value):
-        for row in self.dataset:
-            if row[-1] > value:
-                row[-1] = 1
-            else:
-                row[-1] = 0
-
-    def normalize(self):
-        self.dataset = self.dataset / self.dataset.max(axis=0)
-
-    def fit(self):
-        N = len(self.labels)
-        for i in range(0, N-1):
-            print(self.labels[i])
-    def show(self):
-        print(self.dataset)
-        # print(self.labels[200:300])
-    def check_temp(self, w):
-        for row in self.dataset:
-            print(sigmoid(row[:-1], w))
-
-    def update_coefficients(self):
-        w = [0.0 for i in range(len(self.dataset[0])-1)]
+    def fit(self, X:np.array, Y:np.array, value:int):
+        # print(Y)
+        X = X / X.max(axis=0)
+        X = np.insert(X, 0, 1, axis=1)
+        self.w = [0.0 for i in range(len(X[0]))]
         for i in range(self.iter):
             sum = 0
-            for row in self.dataset:
-                sigma = sigmoid(row[:-1], w)
-                sum += row[:-1] * (row[-1] - sigma)
+            for j, row in enumerate(X):
+                sigma = sigmoid(row, self.w)
+                sum += row * (Y[j] - sigma)
             # print(sum_error)
-            w = w + self.learning_rate*sum
-            print(w)
-        return w
+            self.w = self.w + self.learning_rate*sum
+            # print(self.w)
 
+    def predict(self, X:np.array):
+        predictions = []
+        X = np.insert(X, 0, 1, axis=1)
+        for row in X:
+            a = np.matmul(np.transpose(self.w),row)
+            if a >= 0:
+                predictions.append(1.0 / (1.0 + math.exp(-a)))
+            else:
+                predictions.append(math.exp(a) / (1 + math.exp(a)))
+        return np.asarray(predictions).reshape(-1,1)
 
-    def predict(self):
-        # for row in
-        return
-
+    # def fit_dummy(self, X:np.array, Y:np.array):
+    #     """ dummy function for testing. TODO: remove later once fit is complete returns all 1's in a column"""
+    #     return None
+    #
+    # def predict_dummy(self, X_new:np.array):
+    #     """ dummy function for testing. TODO: remove later once predict  is complete returns all 1's in a column"""
+    #     return np.ones((X_new.shape[0])).reshape(-1,1)
 
 
 def sigmoid(x, w):
