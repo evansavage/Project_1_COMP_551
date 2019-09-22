@@ -6,6 +6,7 @@ class LogisticRegression(object):
     def __init__(self, dataset, iter, learning_rate):
         # dataset = np.asarray(features)
         # self.labels = dataset[:,-1]
+        dataset = np.insert(dataset, 0, 1, axis=1)
         self.dataset = dataset
         self.iter = iter
         self.learning_rate = learning_rate
@@ -17,6 +18,9 @@ class LogisticRegression(object):
             else:
                 row[-1] = 0
 
+    def normalize(self):
+        self.dataset = self.dataset / self.dataset.max(axis=0)
+
     def fit(self):
         N = len(self.labels)
         for i in range(0, N-1):
@@ -26,19 +30,15 @@ class LogisticRegression(object):
         # print(self.labels[200:300])
 
     def update_coefficients(self):
-        w = [0.0 for i in range(len(self.dataset[0]))]
+        w = [0.0 for i in range(len(self.dataset[0])-1)]
         for i in range(self.iter):
-            sum_error = 0
+            sum = 0
             for row in self.dataset:
-                sigma = sigmoid(row, w)
-                # print(sigma, row[-1])
-                error = row[-1] - sigma
-                sum_error += error**2
-                # print(error)
-                w[0] = w[0] + self.learning_rate * error * sigma * (1.0 - sigma)
-                for k in range(len(row)-1):
-                    w[k+1] = w[k+1] + self.learning_rate * error * sigma * (1.0 - sigma) * row[k]
-            print(sum_error)
+                sigma = sigmoid(row[:-1], w)
+                sum += row[:-1] * (row[-1] - sigma)
+            # print(sum_error)
+            w = w + self.learning_rate*sum
+            print(w)
         return w
 
 
@@ -49,10 +49,11 @@ class LogisticRegression(object):
 
 
 def sigmoid(x, w):
-    a = w[0]
-    for i in range(len(x) - 1):
-        a += w[i+1]*x[i]
-    return 1.0 / (1.0 + math.exp(-a))
+    a = np.matmul(np.transpose(w),x)
+    if a >= 0:
+        return 1.0 / (1.0 + math.exp(-a))
+    else:
+        return math.exp(a) / (1 + math.exp(a))
 
 
 # lr = LogisticRegression([[1,2,3],[4,5,6],[7,8,9]])
