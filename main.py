@@ -30,7 +30,9 @@ print(lr_wine.update_coefficients())
 # lr_cancer.threshold(3)
 # lr_cancer.fit()
 
-def evaluate_acc(true_labels, predicted_labels):
+def evaluate_acc(true_labels:np.array, predicted_labels:np.array):
+  print(true_labels)
+  print(predicted_labels)
   """Calculate accuracy of a prediction against the true values
   @Params:
     -- true_labels: the true values of the labels
@@ -47,10 +49,11 @@ def evaluate_acc(true_labels, predicted_labels):
 
 ## TESTING DATA
 x = np.array([[1,2],[3,4],[5,6],[7,8],[9,10],[11,12],[13,14],[15,16],[17,18],[19,20]])
-y = np.array([101,102,103,104,105, 106, 107, 108, 109, 110]).reshape(-1,1)
+y = np.array([1,1,103,104,105, 106, 107, 108, 109, 110]).reshape(-1,1)
+m = LinearDiscriminantAnalysis()
 
 
-def k_fold_cross_validation(k, X, Y, model):
+def k_fold_cross_validation(k:int ,  X:np.array,  Y:np.array, model):
   """Divides dataset X and labels Y into k different bins and runs k-fold cross validation.
   @Params:
     -- k: the number of folds (usually 5)
@@ -59,13 +62,13 @@ def k_fold_cross_validation(k, X, Y, model):
     -- model: the pre-initiated model used for training NOTE: set of model (e.g. learning rate) before running
   @returns: the average accuracy of the k folds"""
 
-  if k<=0 or type(k) != 'int':
+  if k<=0:
     raise Exception("k must be an integer greater than 0")
   if not isinstance (model, (LogisticRegression, LinearDiscriminantAnalysis)):
     raise Exception("Model must be an instance of either LDA or Log. regression class")
   if X.shape[0] != Y.shape[0]:
     raise Exception("data set (X) must have same number of examples as training set (Y)")
-  if Y.shape != (1,):
+  if Y.shape[1] != 1:
     raise Exception("label set (Y) must be column vector")
 
   sample_size = X.shape[0]
