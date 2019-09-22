@@ -20,7 +20,7 @@ def evaluate_acc(true_labels:np.array, predicted_labels:np.array):
   return correct_count/total_entries
 
 
-def k_fold_cross_validation(k:int ,  X:np.array,  Y:np.array, model):
+def k_fold_cross_validation(k:int ,  X:np.array,  Y:np.array, model, thresh:int):
   """Divides dataset X and labels Y into k different bins and runs k-fold cross validation.
   @Params:
     -- k: the number of folds (usually 5)
@@ -28,7 +28,7 @@ def k_fold_cross_validation(k:int ,  X:np.array,  Y:np.array, model):
     -- Y: training + validation labels combined set
     -- model: the pre-initiated model used for training NOTE: set of model (e.g. learning rate) before running
   @returns: the average accuracy of the k folds"""
-
+  print(X.shape, Y.shape)
   if k<=0:
     raise Exception("k must be an integer greater than 0")
   if not isinstance (model, (LogisticRegression, LinearDiscriminantAnalysis)):
@@ -37,6 +37,12 @@ def k_fold_cross_validation(k:int ,  X:np.array,  Y:np.array, model):
     raise Exception("data set (X) must have same number of examples as training set (Y)")
   if Y.shape[1] != 1:
     raise Exception("label set (Y) must be column vector")
+
+  for i in range(len(Y)):
+      if Y[i] > thresh:
+          Y[i] = 1
+      else:
+          Y[i] = 0
 
   sample_size = X.shape[0]
   fold_size = sample_size // k
@@ -68,8 +74,8 @@ def k_fold_cross_validation(k:int ,  X:np.array,  Y:np.array, model):
     validation_data = X[slices[fold][0] : slices[fold][1] + 1, :]
     validation_labels = Y[slices[fold][0] : slices[fold][1] + 1, :]
 
-    model.fit_dummy(training_data, training_labels)
-    predicted_labels = model.predict_dummy(validation_data)
+    model.fit(training_data, training_labels, thresh)
+    predicted_labels = model.predict(validation_data)
 
     accuracy = evaluate_acc(validation_labels, predicted_labels)
     print(f"... fold #{fold} finished with accuracy: {accuracy}")
@@ -79,4 +85,3 @@ def k_fold_cross_validation(k:int ,  X:np.array,  Y:np.array, model):
   average_error = total_error / k
   print(f"===================== \nFINISHED KFOLD. Average model accuracy: {average_error}")
   return average_error
-
