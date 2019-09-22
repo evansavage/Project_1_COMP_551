@@ -33,11 +33,12 @@ class LinearDiscriminantAnalysis:
             -- X_new: dataset
             @return:
             -- np array with binary predictions {0,1} for each point"""
+        return None
 
+    def fit_dummy(self, X:np.array, Y:np.array):
+        """ dummy function for testing. TODO: remove later once fit is complete returns all 1's in a column"""
+        return None
+
+    def predict_dummy(self, X_new:np.array):
+        """ dummy function for testing. TODO: remove later once predict  is complete returns all 1's in a column"""
         return np.ones((X_new.shape[0])).reshape(-1,1)
-
-    def setLearningRate(self, learning_rate:float):
-        self.learning_rate = learning_rate
-
-    def setIter(self, iters:int):
-        self.iter = iters
