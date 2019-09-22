@@ -17,7 +17,7 @@ class LinearDiscriminantAnalysis:
         # 1- Compute the total mean vector mu and the mean vector for each class muc(d dimensions)
         mu = np.mean(X, axis=0).values
         mu_k = []
-i
+
         # 2- Compute the scatter matrices (in between and within class)
         # within_class_scatter=  sum (scatter_per_class)
         # scatter_per_class = sum((x-mi)(x-mi). T)
@@ -28,7 +28,6 @@ i
         # 5- Use matrix w to transform n*d dataset x into lower n*k dataset y
         return None
 
-        return None
 
     def predict(self, X_new:np.array):
         """@Params:
