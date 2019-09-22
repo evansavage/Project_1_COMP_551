@@ -3,12 +3,12 @@ import numpy as np
 
 
 class LogisticRegression(object):
-    def __init__(self, dataset, iter, learning_rate):
+    def __init__(self, dataset, iters, learning_rate):
         # dataset = np.asarray(features)
         # self.labels = dataset[:,-1]
         dataset = np.insert(dataset, 0, 1, axis=1)
         self.dataset = dataset
-        self.iter = iter
+        self.iters = iters
         self.learning_rate = learning_rate
 
     def threshold(self, value):
