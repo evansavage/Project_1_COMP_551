@@ -28,6 +28,9 @@ class LogisticRegression(object):
     def show(self):
         print(self.dataset)
         # print(self.labels[200:300])
+    def check_temp(self, w):
+        for row in self.dataset:
+            print(sigmoid(row[:-1], w))
 
     def update_coefficients(self):
         w = [0.0 for i in range(len(self.dataset[0])-1)]
