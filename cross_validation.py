@@ -20,7 +20,7 @@ def evaluate_acc(true_labels:np.array, predicted_labels:np.array):
   return correct_count/total_entries
 
 
-def k_fold_cross_validation(k:int ,  X:np.array,  Y:np.array, model, thresh:int):
+def k_fold_cross_validation(k:int ,  X:np.array,  Y:np.array, model, thresh:int, normalize):
   """Divides dataset X and labels Y into k different bins and runs k-fold cross validation.
   @Params:
     -- k: the number of folds (usually 5)
@@ -74,7 +74,7 @@ def k_fold_cross_validation(k:int ,  X:np.array,  Y:np.array, model, thresh:int)
     validation_data = X[slices[fold][0] : slices[fold][1] + 1, :]
     validation_labels = Y[slices[fold][0] : slices[fold][1] + 1, :]
 
-    model.fit(training_data, training_labels, thresh)
+    model.fit(training_data, training_labels, normalize)
     predicted_labels = model.predict(validation_data)
 
     accuracy = evaluate_acc(validation_labels, predicted_labels)
