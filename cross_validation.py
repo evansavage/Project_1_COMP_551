@@ -4,7 +4,7 @@ import numpy as np
 from logistic_regression import LogisticRegression
 from linear_discriminant_analysis import LinearDiscriminantAnalysis
 
-def evaluate_acc(true_labels:np.array, predicted_labels:np.array):
+def evaluate_acc(true_labels:np.array, predicted_labels:np.array) -> float:
   """Calculate accuracy of a prediction against the true values
   @Params:
     -- true_labels: the true values of the labels
@@ -20,7 +20,8 @@ def evaluate_acc(true_labels:np.array, predicted_labels:np.array):
   return correct_count/total_entries
 
 
-def k_fold_cross_validation(k:int ,  X:np.array,  Y:np.array, model, thresh:int):
+# TODO: what was thresh doing? should it be here? it doesn't seem to make a difference in LogReg.
+def k_fold_cross_validation(k:int ,  X:np.array,  Y:np.array, model, thresh = 0.5, debug=False) -> float:
   """Divides dataset X and labels Y into k different bins and runs k-fold cross validation.
   @Params:
     -- k: the number of folds (usually 5)
@@ -39,10 +40,10 @@ def k_fold_cross_validation(k:int ,  X:np.array,  Y:np.array, model, thresh:int)
     raise Exception("label set (Y) must be column vector")
 
   for i in range(len(Y)):
-      if Y[i] > thresh:
-          Y[i] = 1
-      else:
-          Y[i] = 0
+    if Y[i] > thresh:
+      Y[i] = 1
+    else:
+      Y[i] = 0
 
   sample_size = X.shape[0]
   fold_size = sample_size // k
@@ -61,7 +62,8 @@ def k_fold_cross_validation(k:int ,  X:np.array,  Y:np.array, model, thresh:int)
   # Break the data up into chunks for each of the k tests
   #-----------------------------------------------------
   for fold in range(k):
-    print(f"====== Kfold set #{fold} =========")
+    if debug:
+      print(f"====== Kfold set #{fold} =========")
     training_data_1 = X[0 : slices[fold][0], :] # from first example to start of validation set
     training_labels_1 = Y[0 : slices[fold][0], :] # "" for labels
     training_data_2 = X[slices[fold][1] + 1:, :] #from end of validation set to end of entire set
@@ -78,7 +80,8 @@ def k_fold_cross_validation(k:int ,  X:np.array,  Y:np.array, model, thresh:int)
     predicted_labels = model.predict(validation_data)
 
     accuracy = evaluate_acc(validation_labels, predicted_labels)
-    print(f"... fold #{fold} finished with accuracy: {accuracy}")
+    if debug:
+      print(f"... fold #{fold} finished with accuracy: {accuracy}")
     total_error += accuracy
 
   # average error over k entries
