@@ -51,11 +51,14 @@ class LinearDiscriminantAnalysis:
         self.w[1:] = (mu_1 - mu_0) / sigma
         print('COEF:', self.w)
 
+<<<<<<< HEAD
 
         # 4- Select the EigenVectors of the cooresponding k largest eigenvalues to create d*k matrix w
 
         # 5- Use matrix w to transform n*d dataset x into lower n*k dataset y
 
+=======
+>>>>>>> b934b9f6a64bdcb74109fa3910837f9d596308a3
     def predict(self, X:np.array):
         predictions = []
         for row in X:
@@ -66,11 +69,3 @@ class LinearDiscriminantAnalysis:
                 predict = 0
             predictions.append(predict)
         return np.asarray(predictions).reshape(-1,1)
-
-    # def fit_dummy(self, X:np.array, Y:np.array):
-    #     """ dummy function for testing. TODO: remove later once fit is complete returns all 1's in a column"""
-    #     return None
-
-    # def predict_dummy(self, X_new:np.array):
-    #     """ dummy function for testing. TODO: remove later once predict  is complete returns all 1's in a column"""
-    #     return np.ones((X_new.shape[0])).reshape(-1,1)
