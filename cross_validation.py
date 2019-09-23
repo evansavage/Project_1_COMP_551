@@ -54,7 +54,11 @@ def k_fold_cross_validation(k:int ,  X:np.array,  Y:np.array, model, thresh = 0.
   fold_size = sample_size // k
   remainder = sample_size % k
 
+  ## Shuffles rows before binning. Can shuffle with a seed if desired.
   if shuffle:
+    if type (shuffle) == int:
+      np.random.seed(shuffle)
+      print('seeding ')
     X= np.copy(X)
     np.random.shuffle(X)
 
@@ -72,7 +76,8 @@ def k_fold_cross_validation(k:int ,  X:np.array,  Y:np.array, model, thresh = 0.
   #-----------------------------------------------------
   for fold in range(k):
     if debug:
-      print(f"====== Kfold set #{fold} =========")
+      print(f"====== Kfold set #{fold} ========")
+
     training_data_1 = X[0 : slices[fold][0], :] # from first example to start of validation set
     training_labels_1 = Y[0 : slices[fold][0], :] # "" for labels
     training_data_2 = X[slices[fold][1] + 1:, :] #from end of validation set to end of entire set
@@ -87,6 +92,7 @@ def k_fold_cross_validation(k:int ,  X:np.array,  Y:np.array, model, thresh = 0.
 
     model.fit(training_data, training_labels)
     predicted_labels = model.predict(validation_data)
+
 
     accuracy = evaluate_acc(validation_labels, predicted_labels)
     if debug:
