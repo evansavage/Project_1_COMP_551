@@ -20,7 +20,7 @@ class LogisticRegression(object):
             X = X / 10
         X = np.insert(X, 0, 1, axis=1)
         self.w = [0.0 for i in range(len(X[0]))]
-        for i in range(self.iter):
+        for _ in range(self.iter):
             sum = 0
             for j, row in enumerate(X):
                 sigma = sigmoid(row, self.w)
@@ -49,7 +49,7 @@ class LogisticRegression(object):
     #     return np.ones((X_new.shape[0])).reshape(-1,1)
 
 
-def sigmoid(x, w):
+def sigmoid(x:np.matrix, w:np.matrix):
     a = np.matmul(np.transpose(w),x)
     if a >= 0:
         return 1.0 / (1.0 + math.exp(-a))

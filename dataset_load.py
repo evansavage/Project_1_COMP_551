@@ -5,7 +5,8 @@ import matplotlib.pyplot as plt
 
 # (1,2) Download and load datasets into numpy objects
 
-def load_dataset(file_name, delimiter, *remove_first_index, **kwargs):
+def load_dataset(file_name:str, delimiter:str, *remove_first_index, **kwargs):
+    """load dataset from csv file into a numpy array"""
     if remove_first_index:
         dataset = np.genfromtxt(file_name, delimiter=delimiter)[1:]
         dataset = dataset[:, 1:]
@@ -13,24 +14,25 @@ def load_dataset(file_name, delimiter, *remove_first_index, **kwargs):
         dataset = np.genfromtxt(file_name, delimiter=delimiter)[1:]
     return dataset
 
-def clean_dataset_nan(dataset):
+def clean_dataset_nan(dataset:np.array):
+    """Remove any elements which contain NaN or empty values"""
     return dataset[~np.isnan(dataset).any(axis=1)]
 
-wine_dataset = load_dataset('winequality-red.csv', ';')
-breast_cancer_dataset = load_dataset('breast-cancer-wisconsin.data', ',')
+# wine_dataset = load_dataset('winequality-red.csv', ';')
+# breast_cancer_dataset = load_dataset('breast-cancer-wisconsin.data', ',')
 
-print('Wine Dataset before cleaning:', wine_dataset.shape)
-print('Breast Cancer Dataset before cleaning:', breast_cancer_dataset.shape, '\n')
+# print('Wine Dataset before cleaning:', wine_dataset.shape)
+# print('Breast Cancer Dataset before cleaning:', breast_cancer_dataset.shape, '\n')
 
-wine_dataset = clean_dataset_nan(wine_dataset)
-breast_cancer_dataset = clean_dataset_nan(breast_cancer_dataset)
+# wine_dataset = clean_dataset_nan(wine_dataset)
+# breast_cancer_dataset = clean_dataset_nan(breast_cancer_dataset)
 
-print('Wine Dataset after cleaning:', wine_dataset.shape)
-print('Breast Cancer Dataset after cleaning:', breast_cancer_dataset.shape)
+# print('Wine Dataset after cleaning:', wine_dataset.shape)
+# print('Breast Cancer Dataset after cleaning:', breast_cancer_dataset.shape)
 
-# (4) Compute some statistics on the data
+## (4) Compute some statistics on the data
 
-# Wine quality distribution
+## Wine quality distribution
 
 # plt.figure('Wine')
 # plt.subplot(2,1,1)
@@ -45,7 +47,7 @@ print('Breast Cancer Dataset after cleaning:', breast_cancer_dataset.shape)
 # plt.ylabel('Count')
 # plt.subplots_adjust(hspace=1)
 #
-# # Tumor class distribution
+## Tumor class distribution
 #
 # plt.figure('Breast Cancer')
 # plt.subplot(2,1,1)
