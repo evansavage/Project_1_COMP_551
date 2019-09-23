@@ -20,8 +20,8 @@ def evaluate_acc(true_labels:np.array, predicted_labels:np.array) -> float:
   return correct_count/total_entries
 
 # TODO: what was thresh doing? should it be here? it doesn't seem to make a difference in LogReg.
-def k_fold_cross_validation(k:int ,  X:np.array,  Y:np.array, model, thresh:int, normalize:str, debug:bool=False) -> float:
-
+def k_fold_cross_validation(k:int ,  X:np.array,  Y:np.array, model, thresh:int, normalize:str, shuffle:bool=True, debug:bool=False) -> float:
+  shuffle = 1
   """Divides dataset X and labels Y into k different bins and runs k-fold cross validation.
   @Params:
     -- k: the number of folds (usually 5)
@@ -31,6 +31,14 @@ def k_fold_cross_validation(k:int ,  X:np.array,  Y:np.array, model, thresh:int,
     -- shuffle: should the model shuffle the dataset before splitting into folds (default True)
     -- debug: should you print fold's accuracy as it goes (default False)
   @returns: the average accuracy of the k folds"""
+
+  if shuffle:
+    temp = np.append(X, Y, axis=1)
+    np.random.shuffle(temp)
+    X = temp[:, :-1]
+    Y = temp[:, -1].reshape(-1,1)
+
+
 
   if debug:
     print(f"Doing {k} folds on {model.__class__.__name__}: {X.shape[0]} examples by {X.shape[1]} features.")
@@ -53,10 +61,6 @@ def k_fold_cross_validation(k:int ,  X:np.array,  Y:np.array, model, thresh:int,
   sample_size = X.shape[0]
   fold_size = sample_size // k
   remainder = sample_size % k
-
-  if shuffle:
-    X= np.copy(X)
-    np.random.shuffle(X)
 
   # Calculate the size of each of the k chunks into inclusive sliced ranges e.g. [s0, s1]
   slices = []

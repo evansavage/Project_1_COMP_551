@@ -33,13 +33,13 @@ Y_cancer2 = Y_cancer.copy()
 wine_LR = LogisticRegression(100, 0.3)
 cancer_LR = LogisticRegression(100, 0.3)
 
-k_fold_cross_validation(5, X_wine, Y_wine, wine_LR, 5, '', False)
-k_fold_cross_validation(5, X_cancer, Y_cancer, cancer_LR, 3, '', False)
+k_fold_cross_validation(5, X_wine, Y_wine, wine_LR, 5, '', True, False)
+k_fold_cross_validation(5, X_cancer, Y_cancer, cancer_LR, 3, '', True, False)
 
-# wine_LDA = LinearDiscriminantAnalysis()
-# cancer_LDA = LinearDiscriminantAnalysis()
+wine_LDA = LinearDiscriminantAnalysis()
+cancer_LDA = LinearDiscriminantAnalysis()
 
-k_fold_cross_validation(5, X_wine2, Y_wine2, wine_LDA, 5, '', False)
-k_fold_cross_validation(5, X_cancer2, Y_cancer2, cancer_LDA, 3, '', False)
+k_fold_cross_validation(5, X_wine2, Y_wine2, wine_LDA, 5, '', True, False)
+k_fold_cross_validation(5, X_cancer2, Y_cancer2, cancer_LDA, 3, '', True, False)
 
 print("DONE")
