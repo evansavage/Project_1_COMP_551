@@ -38,6 +38,7 @@ def k_fold_cross_validation(k:int ,  X:np.array,  Y:np.array, model, thresh:int,
   if Y.shape[1] != 1:
     raise Exception("label set (Y) must be column vector")
 
+  # Normalize the data via the threshold parameter
   for i in range(len(Y)):
       if Y[i] > thresh:
           Y[i] = 1
