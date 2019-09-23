@@ -35,9 +35,9 @@ class LogisticRegression(object):
         for row in X:
             a = np.matmul(np.transpose(self.w),row)
             if a >= 0:
-                predictions.append(1.0 / (1.0 + math.exp(-a)))
+                predictions.append(1.0 / (1.0 + np.exp(-a)))
             else:
-                predictions.append(math.exp(a) / (1 + math.exp(a)))
+                predictions.append(np.exp(a) / (1 + np.exp(a)))
         return np.asarray(predictions).reshape(-1,1)
 
     # def fit_dummy(self, X:np.array, Y:np.array):
