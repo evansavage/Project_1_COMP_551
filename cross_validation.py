@@ -20,7 +20,7 @@ def evaluate_acc(true_labels:np.array, predicted_labels:np.array) -> float:
   return correct_count/total_entries
 
 # TODO: what was thresh doing? should it be here? it doesn't seem to make a difference in LogReg.
-def k_fold_cross_validation(k:int ,  X:np.array,  Y:np.array, model, thresh = 0.5, shuffle=True, debug=False) -> float:
+def k_fold_cross_validation(k:int ,  X:np.array,  Y:np.array, model, thresh:int, normalize:str, debug:bool=False) -> float:
 
   """Divides dataset X and labels Y into k different bins and runs k-fold cross validation.
   @Params:
