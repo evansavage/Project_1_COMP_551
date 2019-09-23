@@ -2,12 +2,8 @@ import numpy as np
 
 
 class Lda2:
-    def __init__(self, iter: int, learning_rate: float):
-        # dataset = np.asarray(dataset)
-        # self.features = dataset[:, :-1]
-        # self.labels = dataset[:, -1]
-        self.iter = iter
-        self.learning_rate = learning_rate
+    def __init__(self):
+        self.w = []
 
     def fit(self, X: np.array, Y: np.array):
         """ @Params:
@@ -50,17 +46,15 @@ class Lda2:
         eigen_pairs = [(np.abs(eigen_values[i]), eigen_vectors[:, i]) for i in range(len(eigen_values))]
         eigen_pairs = sorted(eigen_pairs, key=lambda k: k[0], reverse=True)
         # select 2 largest?
-        transform_matrix = np.hstack([eigen_pairs[i][1].reshape(4, 1) for i in range(0, 2)])
+        self.w = np.hstack([eigen_pairs[i][1].reshape(4, 1) for i in range(0, 2)])
 
-        return transform_matrix
-
-    def predict(self, X_new: np.array, W):
+    def predict(self, X_new: np.array):
         """@Params:
             -- X_new: dataset
             @return:
             -- np array with binary predictions {0,1} for each point"""
         # 7- Use matrix w to transform n*d dataset x into lower n*k dataset y
-        predicted_labels = X_new.dot(W)
+        predicted_labels = X_new.dot(self.w)
 
         return predicted_labels
 
