@@ -20,7 +20,7 @@ def evaluate_acc(true_labels:np.array, predicted_labels:np.array) -> float:
   return correct_count/total_entries
 
 # TODO: what was thresh doing? should it be here? it doesn't seem to make a difference in LogReg.
-def k_fold_cross_validation(k:int ,  X:np.array,  Y:np.array, model, thresh = 0.5, debug=False) -> float:
+def k_fold_cross_validation(k:int ,  X:np.array,  Y:np.array, model, thresh = 0.5, shuffle=True, debug=False) -> float:
 
   """Divides dataset X and labels Y into k different bins and runs k-fold cross validation.
   @Params:
@@ -28,8 +28,12 @@ def k_fold_cross_validation(k:int ,  X:np.array,  Y:np.array, model, thresh = 0.
     -- X: training + validation data combined set
     -- Y: training + validation labels combined set
     -- model: the pre-initiated model used for training NOTE: set of model (e.g. learning rate) before running
+    -- shuffle: should the model shuffle the dataset before splitting into folds (default True)
+    -- debug: should you print fold's accuracy as it goes (default False)
   @returns: the average accuracy of the k folds"""
-  print(X.shape, Y.shape)
+
+  if debug:
+    print(f"Doing {k} folds on {model.__class__.__name__}: {X.shape[0]} examples by {X.shape[1]} features.")
   if k<=0:
     raise Exception("k must be an integer greater than 0")
   if not isinstance (model, (LogisticRegression, LinearDiscriminantAnalysis)):
@@ -49,6 +53,10 @@ def k_fold_cross_validation(k:int ,  X:np.array,  Y:np.array, model, thresh = 0.
   sample_size = X.shape[0]
   fold_size = sample_size // k
   remainder = sample_size % k
+
+  if shuffle:
+    X= np.copy(X)
+    np.random.shuffle(X)
 
   # Calculate the size of each of the k chunks into inclusive sliced ranges e.g. [s0, s1]
   slices = []
@@ -77,7 +85,7 @@ def k_fold_cross_validation(k:int ,  X:np.array,  Y:np.array, model, thresh = 0.
     validation_data = X[slices[fold][0] : slices[fold][1] + 1, :]
     validation_labels = Y[slices[fold][0] : slices[fold][1] + 1, :]
 
-    model.fit(training_data, training_labels, normalize)
+    model.fit(training_data, training_labels)
     predicted_labels = model.predict(validation_data)
 
     accuracy = evaluate_acc(validation_labels, predicted_labels)
