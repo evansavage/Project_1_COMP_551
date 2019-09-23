@@ -12,9 +12,12 @@ class LogisticRegression(object):
         self.learning_rate = learning_rate
         self.w = []
 
-    def fit(self, X:np.array, Y:np.array):
+    def fit(self, X:np.array, Y:np.array, normalize):
         # print(Y)
-        X = X / X.max(axis=0) #normalize data?
+        if normalize == 'max':
+            X = X / X.max(axis=0)
+        elif normalize == 'scale':
+            X = X / 10
         X = np.insert(X, 0, 1, axis=1)
         self.w = [0.0 for i in range(len(X[0]))]
         for _ in range(self.iter):

@@ -12,7 +12,7 @@ breast_cancer_dataset = load_dataset('breast-cancer-wisconsin.data', ',', 1)
 
 # data clearning
 wine_dataset = clean_dataset_nan(wine_dataset)
-breast_cancer_dataset = clean_dataset_nan(breast_cancer_dataset)[1:]
+breast_cancer_dataset = clean_dataset_nan(breast_cancer_dataset)
 
 ## testing data
 # lr_wine = LogisticRegression(wine_dataset, 100, 0.3)
@@ -41,8 +41,8 @@ breast_cancer_dataset = clean_dataset_nan(breast_cancer_dataset)[1:]
 x = np.array([[1,2],[3,4],[5,6],[7,8],[9,10],[11,12],[13,14],[15,16],[17,18],[19,20]])
 y = np.array([1,1,103,104,105, 106, 107, 108, 109, 110]).reshape(-1,1)
 
-# wine_LR = LogisticRegression(2000, 0.3)
-cancer_LR = LogisticRegression(100, 0.01)
-# k_fold_cross_validation(5, wine_dataset[:,:-1], wine_dataset[:, -1].reshape(-1,1), wine_LR, 5)
-k_fold_cross_validation(5, breast_cancer_dataset[:,:-1], breast_cancer_dataset[:,-1].reshape(-1,1), cancer_LR, 3)
+wine_LR = LogisticRegression(3000, 0.01)
+cancer_LR = LogisticRegression(2000, 0.3)
+k_fold_cross_validation(5, wine_dataset[:,:-1], wine_dataset[:, -1].reshape(-1,1), wine_LR, 5, 'max')
+# k_fold_cross_validation(5, breast_cancer_dataset[:,:-1], breast_cancer_dataset[:,-1].reshape(-1,1), cancer_LR, 3, '')
 print("DONE")

@@ -19,9 +19,9 @@ def evaluate_acc(true_labels:np.array, predicted_labels:np.array) -> float:
 
   return correct_count/total_entries
 
-
 # TODO: what was thresh doing? should it be here? it doesn't seem to make a difference in LogReg.
-def k_fold_cross_validation(k:int ,  X:np.array,  Y:np.array, model, thresh = 0.5, debug=False) -> float:
+def k_fold_cross_validation(k:int ,  X:np.array,  Y:np.array, model, thresh = 0.5, normalize=True, debug=False) -> float:
+
   """Divides dataset X and labels Y into k different bins and runs k-fold cross validation.
   @Params:
     -- k: the number of folds (usually 5)
@@ -76,7 +76,7 @@ def k_fold_cross_validation(k:int ,  X:np.array,  Y:np.array, model, thresh = 0.
     validation_data = X[slices[fold][0] : slices[fold][1] + 1, :]
     validation_labels = Y[slices[fold][0] : slices[fold][1] + 1, :]
 
-    model.fit(training_data, training_labels, thresh)
+    model.fit(training_data, training_labels, normalize)
     predicted_labels = model.predict(validation_data)
 
     accuracy = evaluate_acc(validation_labels, predicted_labels)
