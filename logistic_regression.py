@@ -4,6 +4,11 @@ import numpy as np
 
 class LogisticRegression(object):
     def __init__(self, iter:int, learning_rate:float):
+        """ Constructor for logistic regression model
+        @params:
+            -- iter : int = number of iterations
+            -- learning_rate : float = how quickly the algorithm converges
+            """
         # dataset = np.asarray(features)
         # self.labels = dataset[:,-1]
         # dataset = np.insert(dataset, 0, 1, axis=1)
@@ -12,7 +17,7 @@ class LogisticRegression(object):
         self.learning_rate = learning_rate
         self.w = []
 
-    def fit(self, X:np.array, Y:np.array, normalize):
+    def fit(self, X:np.array, Y:np.array, normalize=''):
         # print(Y)
         if normalize == 'max':
             X = X / X.max(axis=0)
