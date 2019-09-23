@@ -58,9 +58,9 @@ def k_fold_cross_validation(k:int ,  X:np.array,  Y:np.array, model, thresh = 0.
   if shuffle:
     if type (shuffle) == int:
       np.random.seed(shuffle)
-      print('seeding ')
-    X= np.copy(X)
-    np.random.shuffle(X)
+    Xaug = np.hstack((X,Y)) #augmented includes X and Y
+    np.random.shuffle(Xaug)
+
 
   # Calculate the size of each of the k chunks into inclusive sliced ranges e.g. [s0, s1]
   slices = []
