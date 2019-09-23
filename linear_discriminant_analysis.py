@@ -7,7 +7,7 @@ class LinearDiscriminantAnalysis:
         # self.labels = dataset[:, -1]
         self.w = []
 
-    def fit(self, X:np.array, Y:np.array, normalize):
+    def fit(self, X:np.array, Y:np.array, normalize=''):
         """ @Params:
             -- X: dataset
             -- Y: labels

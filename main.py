@@ -33,13 +33,13 @@ Y_cancer2 = breast_cancer_dataset[:,-1].reshape(-1,1)
 wine_LR = LogisticRegression(1000, 0.3)
 cancer_LR = LogisticRegression(2000, 0.3)
 
-k_fold_cross_validation(5, X_wine, Y_wine, wine_LR, 5, '')
-k_fold_cross_validation(5, X_cancer, Y_cancer, cancer_LR, 3, '')
+k_fold_cross_validation(5, X_wine, Y_wine, wine_LR, 5, shuffle=True, debug=True)
+k_fold_cross_validation(5, X_cancer, Y_cancer, cancer_LR, 3, shuffle=True, debug=True)
 
-wine_LDA = LinearDiscriminantAnalysis()
-cancer_LDA = LinearDiscriminantAnalysis()
+# wine_LDA = LinearDiscriminantAnalysis()
+# cancer_LDA = LinearDiscriminantAnalysis()
 
-k_fold_cross_validation(5, X_wine2, Y_wine2, wine_LDA, 5, '')
-k_fold_cross_validation(5, X_cancer2, Y_cancer2, cancer_LDA, 3, '')
+# k_fold_cross_validation(5, X_wine2, Y_wine2, wine_LDA, 5, '')
+# k_fold_cross_validation(5, X_cancer2, Y_cancer2, cancer_LDA, 3, '')
 
 print("DONE")
