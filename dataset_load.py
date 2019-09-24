@@ -18,6 +18,41 @@ def clean_dataset_nan(dataset:np.array):
     """Remove any elements which contain NaN or empty values"""
     return dataset[~np.isnan(dataset).any(axis=1)]
 
+
+def visualize_dataset(file_name:str, delimiter:str, **kwargs):
+    names = []
+    with open(file_name) as f:
+        names = [i.replace('"', '') for i in f.readline().split(delimiter)]
+    for key in kwargs:
+        if key == 'columns':
+            columns = kwargs['columns']
+            if columns[-1] !=  len(names)-1:
+                 columns += (len(names)-1,)
+            print(columns)
+            dataset = np.genfromtxt(file_name, delimiter=delimiter, usecols=columns)[1:]
+            print(dataset.shape)
+            new_names = []
+            for i in range(len(names)):
+                if i in columns:
+                    new_names.append(names[i])
+            names = new_names
+        else:
+            dataset = np.genfromtxt(file_name, delimiter=delimiter)[1:]
+    for key in kwargs:
+        if key == 'remove_first_index':
+            dataset = dataset[:, 1:]
+            names = names[1:]
+
+    for i in range(len(names)):
+        plt.figure(f'{ names[i] } (column: { i })')
+        # plt.hist(dataset[:, i], bins='auto')
+        sns.distplot(dataset[:, i])
+        print(names[i])
+        print(f'Mean: { np.mean(dataset[:, i])}')
+        print(f'StdDev: { np.std(dataset[:, i])}')
+    plt.show()
+    return
+
 # wine_dataset = load_dataset('winequality-red.csv', ';')
 # breast_cancer_dataset = load_dataset('breast-cancer-wisconsin.data', ',')
 
