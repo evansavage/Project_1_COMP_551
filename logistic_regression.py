@@ -28,6 +28,7 @@ class LogisticRegression(object):
         for _ in range(self.iter):
             sum = 0
             for j, row in enumerate(X):
+                # row = [float(i) for i in row]
                 sigma = sigmoid(row, self.w)
                 sum += row * (Y[j] - sigma)
             # print(sum_error)
@@ -40,9 +41,9 @@ class LogisticRegression(object):
         for row in X:
             a = np.matmul(np.transpose(self.w),row)
             if a >= 0:
-                predictions.append(1.0 / (1.0 + np.exp(-a)))
+                predictions.append(np.round(1.0 / (1.0 + np.exp(-a))))
             else:
-                predictions.append(np.exp(a) / (1 + np.exp(a)))
+                predictions.append(np.round(np.exp(a) / (1 + np.exp(a))))
         return np.asarray(predictions).reshape(-1,1)
 
     # def fit_dummy(self, X:np.array, Y:np.array):
@@ -54,7 +55,8 @@ class LogisticRegression(object):
     #     return np.ones((X_new.shape[0])).reshape(-1,1)
 
 
-def sigmoid(x:np.matrix, w:np.matrix):
+def sigmoid(x, w:np.matrix):
+    # print(x, w)
     a = np.matmul(np.transpose(w),x)
     if a >= 0:
         return 1.0 / (1.0 + math.exp(-a))
