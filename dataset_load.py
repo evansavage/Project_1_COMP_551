@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
@@ -6,53 +7,78 @@ import seaborn as sns
 
 # (1,2) Download and load datasets into numpy objects
 
-def load_dataset(file_name:str, delimiter:str, *remove_first_index, **kwargs):
+def load_dataset(file_name:str, delimiter:str, remove_columns:list=[], visualize=False, interaction:list=[]):
     """load dataset from csv file into a numpy array"""
-    if remove_first_index:
-        dataset = np.genfromtxt(file_name, delimiter=delimiter)[1:]
-        dataset = dataset[:, 1:]
-    else:
-        dataset = np.genfromtxt(file_name, delimiter=delimiter)[1:]
-    return dataset
+    dataset = pd.read_csv(file_name, delimiter)
+    if remove_columns:
+        for column in remove_columns:
+            del dataset[column]
+    # print(dataset.shape)
+    for index, row in dataset.iterrows():
+        if '?' in row.values:
+            dataset.drop(index, inplace=True)
+    # print(dataset.shape)
+    if visualize:
+        visualize_dataset(dataset)
+    if interaction:
+        dataset = add_interaction_terms(dataset, interaction)
+    dataset = dataset.apply(pd.to_numeric)
+    dataset.dropna()
+    # print(dataset.dtypes)
+    return dataset.values
 
-def clean_dataset_nan(dataset:np.array):
-    """Remove any elements which contain NaN or empty values"""
-    return dataset[~np.isnan(dataset).any(axis=1)]
+# def clean_dataset_nan(dataset:np.array):
+#     """Remove any elements which contain NaN or empty values"""
+#     return dataset[~np.isnan(dataset).any(axis=1)]
 
 
-def visualize_dataset(file_name:str, delimiter:str, **kwargs):
-    names = []
-    with open(file_name) as f:
-        names = [i.replace('"', '') for i in f.readline().split(delimiter)]
-    for key in kwargs:
-        if key == 'columns':
-            columns = kwargs['columns']
-            if columns[-1] !=  len(names)-1:
-                 columns += (len(names)-1,)
-            print(columns)
-            dataset = np.genfromtxt(file_name, delimiter=delimiter, usecols=columns)[1:]
-            print(dataset.shape)
-            new_names = []
-            for i in range(len(names)):
-                if i in columns:
-                    new_names.append(names[i])
-            names = new_names
-        else:
-            dataset = np.genfromtxt(file_name, delimiter=delimiter)[1:]
-    for key in kwargs:
-        if key == 'remove_first_index':
-            dataset = dataset[:, 1:]
-            names = names[1:]
 
-    for i in range(len(names)):
-        plt.figure(f'{ names[i] } (column: { i })')
-        # plt.hist(dataset[:, i], bins='auto')
-        sns.distplot(dataset[:, i])
-        print(names[i])
-        print(f'Mean: { np.mean(dataset[:, i])}')
-        print(f'StdDev: { np.std(dataset[:, i])}')
+
+def visualize_dataset(dataset):
+    # names = []
+    # with open(file_name) as f:
+    #     names = [i.replace('"', '') for i in f.readline().split(delimiter)]
+    # dataset = np.genfromtxt(file_name, delimiter=delimiter)[1:]
+    # if remove_columns:
+    #     columns = np.array(np.zeros(len(dataset[0]), dtype=bool))
+    #     for i in range(len(columns)):
+    #         if i not in remove_columns:
+    #             columns[i] = True
+    #     dataset = dataset[:, columns]
+    #     new_names = []
+    #     for i in range(len(columns)):
+    #         if columns[i]:
+    #             new_names.append(names[i])
+    #     names = new_names
+    # print(len(dataset[:, -1] < 5))
+    # print(len(dataset[:, -1] >= 5))
+    # for i in range(len(names)):
+    #     plt.figure(f'{ names[i] } (column: { i })')
+    #     # plt.hist(dataset[:, i], bins='auto')
+    #     class0 = dataset[:, i] * (dataset[:, -1] <= 5)
+    #     class1 = dataset[:, i] * (dataset[:, -1] > 5)
+    #     sns.distplot(class0[class0 != 0])
+    #     sns.distplot(class1[class1 != 0])
+    #     print(len(class0[class0 != 0]))
+    #     print(names[i])
+    #     print(f'Mean: { np.mean(dataset[:, i])}')
+    #     print(f'StdDev: { np.std(dataset[:, i])}')
+    # print(file_name[:-4])
+    # correlation = sns.load_dataset(file_name[:-4])
+    plt.figure('Heatmap')
+    correlation = dataset.corr()
+    sns.heatmap(correlation, annot=True)
     plt.show()
     return
+
+def add_interaction_terms(dataset, interaction):
+    new_columns = []
+    for i in interaction:
+        new_columns.append(dataset[i[0]] * dataset[i[1]])
+
+    for i, column in enumerate(new_columns):
+        dataset.insert(0, f'inter{ i }', column)
+    return dataset
 
 # wine_dataset = load_dataset('winequality-red.csv', ';')
 # breast_cancer_dataset = load_dataset('breast-cancer-wisconsin.data', ',')
