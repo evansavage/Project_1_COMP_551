@@ -90,7 +90,7 @@ def k_fold_cross_validation(k:int ,  X:np.array,  Y:np.array, model, thresh:int,
     validation_data = X[slices[fold][0] : slices[fold][1] + 1, :]
     validation_labels = Y[slices[fold][0] : slices[fold][1] + 1, :]
 
-    model.fit(training_data, training_labels)
+    model.fit(training_data, training_labels, normalize)
     predicted_labels = model.predict(validation_data)
 
 
