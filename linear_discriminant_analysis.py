@@ -32,7 +32,7 @@ class LinearDiscriminantAnalysis:
             elif Y[i] == 1:
                 sum_1 += X[i]
                 N_1 += 1
-        print(sum_0)
+        # print(sum_0)
         mu_0 = sum_0 / N_0
         mu_1 = sum_1 / N_1
         # print(mu_0, mu_1)
@@ -49,7 +49,7 @@ class LinearDiscriminantAnalysis:
             - 0.5 * np.matmul(np.transpose(mu_1), mu_1) / sigma \
             + 0.5 * np.matmul(np.transpose(mu_0), mu_0) / sigma
         self.w[1:] = (mu_1 - mu_0) / sigma
-        print('COEF:', self.w)
+        # print('COEF:', self.w)
 
     def predict(self, X:np.array):
         predictions = []
