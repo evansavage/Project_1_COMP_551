@@ -19,7 +19,7 @@ class LogisticRegression(object):
         self.lamda = lamda
         self.reg = reg
         if self.reg:
-            print("Iter:", self.iter, "| LR:", self.learning_rate, "| Lamda:", self.lamda)
+            print("Iter:", self.iter, "| LR:", self.learning_rate, "| Reg:", self.reg, "| Lamda:", self.lamda)
         else:
             print("Iter:", self.iter, "| LR:", self.learning_rate)
 
@@ -54,21 +54,14 @@ class LogisticRegression(object):
                         self.w = self.w + self.learning_rate * (sum + np.multiply(self.lamda, np.sign(self.w)))
                     else:
                         self.w = self.w + self.learning_rate * sum
+                elif self.reg == 'Elastic':
+                    if self.lamda is not None:
+                        # self.w = self.learning_rate * (self.lamda * sum + np.sum(self.w))
+                        self.w = self.w + self.learning_rate * (sum + np.multiply(self.lamda, np.sign(self.w)) + np.multiply(2 * self.lamda, self.w))
+                    else:
+                        self.w = self.w + self.learning_rate * sum
             else:
                 self.w = self.w + self.learning_rate * sum
-
-            ##Update costs (not necessary for fixed theta)
-
-            # if np.all(abs(self.w) >= tolerance):
-            #     # Costs
-            #     if self.lamda is not None:
-            #         self.costs.append(reg_logLiklihood(X, self.w, Y, self.lamda))
-            #     else:
-            #         self.costs.append(logLiklihood(z, Y))
-            # else:
-            #     break
-
-            # print(self.w)
 
     def predict(self, X:np.array):
         predictions = []
