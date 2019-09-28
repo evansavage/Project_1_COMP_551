@@ -49,6 +49,35 @@ def visualize_dataset(dataset):
     plt.show()
     return
 
+
+def getWineHeaderNames():
+  return np.array([
+    "fixed acidity",
+    "vliatile acidity",
+    "citric acid",
+    "sugar",
+    "chlorides",
+    "free SO2",
+    "total SO2",
+    "density",
+    "pH",
+    "sulphates",
+    "alcohol"
+  ])
+
+def getCancerHeaderNames():
+  return np.array([
+    "clump thickness",
+    "cell size uniformity",
+    "cell shape uniformity",
+    "marginal adhesionn",
+    "single epithelial cell size",
+    "bare nuclei",
+    "bland chromatin",
+    "normal nucleoli",
+    "mitoses"
+  ])
+
 def add_interaction_terms(dataset, interaction):
     new_columns = []
     for i in interaction:
