@@ -3,7 +3,7 @@ import numpy as np
 
 
 class LogisticRegression(object):
-    def __init__(self, iter:int, learning_rate:float, lamda=None):
+    def __init__(self, iter:int, learning_rate:float, reg=None, lamda=None):
         """ Constructor for logistic regression model
         @params:
             -- iter : int = number of iterations
@@ -17,7 +17,11 @@ class LogisticRegression(object):
         self.learning_rate = learning_rate
         self.w = []
         self.lamda = lamda
-        print("Iter:", self.iter, "| LR:", self.learning_rate, "| Lamda:", self.lamda)
+        self.reg = reg
+        if self.reg:
+            print("Iter:", self.iter, "| LR:", self.learning_rate, "| Lamda:", self.lamda)
+        else:
+            print("Iter:", self.iter, "| LR:", self.learning_rate)
 
     def fit(self, X:np.array, Y:np.array, normalize=''):
 
@@ -37,9 +41,19 @@ class LogisticRegression(object):
                 sum += row * (Y[j] - sigma)
             # print(sum_error)
             #Ridge Regression Regularization
-            if self.lamda is not None:
-                # self.w = self.learning_rate * (self.lamda * sum + np.sum(self.w))
-                self.w = self.w + self.learning_rate * (sum + np.multiply(2 * self.lamda, self.w))
+            if self.reg:
+                if self.reg == 'Ridge':
+                    if self.lamda is not None:
+                        # self.w = self.learning_rate * (self.lamda * sum + np.sum(self.w))
+                        self.w = self.w + self.learning_rate * (sum + np.multiply(2 * self.lamda, self.w))
+                    else:
+                        self.w = self.w + self.learning_rate * sum
+                elif self.reg == 'Lasso':
+                    if self.lamda is not None:
+                        # self.w = self.learning_rate * (self.lamda * sum + np.sum(self.w))
+                        self.w = self.w + self.learning_rate * (sum + np.multiply(self.lamda, np.sign(self.w)))
+                    else:
+                        self.w = self.w + self.learning_rate * sum
             else:
                 self.w = self.w + self.learning_rate * sum
 
