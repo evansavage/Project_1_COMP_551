@@ -3,7 +3,7 @@ import numpy as np
 
 
 class LogisticRegression(object):
-    def __init__(self, iter:int, learning_rate:float, theta, lamda):
+    def __init__(self, iter:int, learning_rate:float, lamda=None):
         """ Constructor for logistic regression model
         @params:
             -- iter : int = number of iterations
@@ -16,10 +16,11 @@ class LogisticRegression(object):
         self.iter = iter
         self.learning_rate = learning_rate
         self.w = []
-        self.theta = theta
         self.lamda = lamda
 
     def fit(self, X:np.array, Y:np.array, normalize=''):
+
+        self.costs = []
         # print(Y)
         if normalize == 'max':
             X = X / X.max(axis=0)
@@ -28,23 +29,29 @@ class LogisticRegression(object):
         X = np.insert(X, 0, 1, axis=1)
         self.w = [0.0 for i in range(len(X[0]))]
         for _ in range(self.iter):
-            #calculate penalty from ridge regression
-            num_features = len(Y)
-            #Y = Y[:, np.newaxis]
-            #penalty calculation according to lamda and theta (ridge regression)
-            penalty_gradient = (self.lamda / num_features) * self.theta
             sum = 0
             for j, row in enumerate(X):
                 # row = [float(i) for i in row]
-                #self.w = self.w @ self.theta[1:]
                 sigma = sigmoid(row, self.w)
                 sum += row * (Y[j] - sigma)
             # print(sum_error)
-            ## Adding penalty to sum for regularization
-            new_sum = sum + penalty_gradient
+            #Ridge Regression Regularization
+            if self.lamda is not None:
+                self.w = self.learning_rate * (self.lamda * sum + np.sum(self.w))
+            else:
+                self.w = self.w + self.learning_rate * sum
 
-            self.w = self.w @ self.theta + self.learning_rate * new_sum
-            self.theta = self.theta - (self.learning_rate * new_sum)
+            ##Update costs (not necessary for fixed theta)
+
+            # if np.all(abs(self.w) >= tolerance):
+            #     # Costs
+            #     if self.lamda is not None:
+            #         self.costs.append(reg_logLiklihood(X, self.w, Y, self.lamda))
+            #     else:
+            #         self.costs.append(logLiklihood(z, Y))
+            # else:
+            #     break
+
             # print(self.w)
 
     def predict(self, X:np.array):
@@ -66,7 +73,6 @@ class LogisticRegression(object):
     #     """ dummy function for testing. TODO: remove later once predict  is complete returns all 1's in a column"""
     #     return np.ones((X_new.shape[0])).reshape(-1,1)
 
-
 def sigmoid(x, w:np.matrix):
     # print(x, w)
     a = np.matmul(np.transpose(w), x)
@@ -74,7 +80,6 @@ def sigmoid(x, w:np.matrix):
         return 1.0 / (1.0 + math.exp(-a))
     else:
         return math.exp(a) / (1 + math.exp(a))
-
 
 # lr = LogisticRegression([[1,2,3],[4,5,6],[7,8,9]])
 # print(lr.dataset)
