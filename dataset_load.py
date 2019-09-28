@@ -18,10 +18,10 @@ def load_dataset(file_name:str, delimiter:str, remove_columns:list=[], visualize
         if '?' in row.values:
             dataset.drop(index, inplace=True)
     # print(dataset.shape)
-    if visualize:
-        visualize_dataset(dataset)
     if interaction:
         dataset = add_interaction_terms(dataset, interaction)
+    if visualize:
+        visualize_dataset(dataset)
     dataset = dataset.apply(pd.to_numeric)
     dataset.dropna()
     # print(dataset.dtypes)
@@ -35,36 +35,6 @@ def load_dataset(file_name:str, delimiter:str, remove_columns:list=[], visualize
 
 
 def visualize_dataset(dataset):
-    # names = []
-    # with open(file_name) as f:
-    #     names = [i.replace('"', '') for i in f.readline().split(delimiter)]
-    # dataset = np.genfromtxt(file_name, delimiter=delimiter)[1:]
-    # if remove_columns:
-    #     columns = np.array(np.zeros(len(dataset[0]), dtype=bool))
-    #     for i in range(len(columns)):
-    #         if i not in remove_columns:
-    #             columns[i] = True
-    #     dataset = dataset[:, columns]
-    #     new_names = []
-    #     for i in range(len(columns)):
-    #         if columns[i]:
-    #             new_names.append(names[i])
-    #     names = new_names
-    # print(len(dataset[:, -1] < 5))
-    # print(len(dataset[:, -1] >= 5))
-    # for i in range(len(names)):
-    #     plt.figure(f'{ names[i] } (column: { i })')
-    #     # plt.hist(dataset[:, i], bins='auto')
-    #     class0 = dataset[:, i] * (dataset[:, -1] <= 5)
-    #     class1 = dataset[:, i] * (dataset[:, -1] > 5)
-    #     sns.distplot(class0[class0 != 0])
-    #     sns.distplot(class1[class1 != 0])
-    #     print(len(class0[class0 != 0]))
-    #     print(names[i])
-    #     print(f'Mean: { np.mean(dataset[:, i])}')
-    #     print(f'StdDev: { np.std(dataset[:, i])}')
-    # print(file_name[:-4])
-    # correlation = sns.load_dataset(file_name[:-4])
     for i, j in enumerate(dataset.columns.values):
         print(i)
         plt.figure(f'{ j } (column { i })')

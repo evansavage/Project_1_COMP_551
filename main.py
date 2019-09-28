@@ -13,27 +13,16 @@ from cross_validation import evaluate_acc, k_fold_cross_validation
 # load datasets
 wine_dataset = load_dataset('winequality-red.csv',
     ';',
-    visualize=True,
+    # visualize=True,
     # interaction=[['citric acid', 'fixed acidity'], ['density', 'fixed acidity']],
-    remove_columns=['pH', 'residual sugar']
+    # remove_columns=['pH', 'residual sugar']
     )
 breast_cancer_dataset = load_dataset('breast-cancer-wisconsin.data',
     ',',
     # visualize=True,
     # interaction=[['Uniformity of Cell Shape', 'Uniformity of Cell Size']],
-    remove_columns=['Sample code number'])
-
-# wine_dataset_test = pd.read_csv('winequality-red.csv', ';')
-# print(wine_dataset_test.iloc[:, -1])
-# breast_cancer_dataset_test = pd.read_csv('breast-cancer-wisconsin.data', ',')
-# print(breast_cancer_dataset_test.iloc[:,-1])
-# data clearning
-# wine_dataset = clean_dataset_nan(wine_dataset)
-# breast_cancer_dataset = clean_dataset_nan(breast_cancer_dataset)
-
-## TESTING DATA TODO: Comment out and remove before submitting
-# x = np.array([[1,2],[3,4],[5,6],[7,8],[9,10],[11,12],[13,14],[15,16],[17,18],[19,20]])
-# y = np.array([1,1,103,104,105, 106, 107, 108, 109, 110]).reshape(-1,1)
+    remove_columns=['Sample code number']
+    )
 
 X_wine = wine_dataset[:,:-1]
 Y_wine = wine_dataset[:, -1].reshape(-1,1)
@@ -46,16 +35,12 @@ Y_wine2 = Y_wine.copy()
 
 X_cancer2 = X_cancer.copy()
 Y_cancer2 = Y_cancer.copy()
-#
-initial_theta_wine = np.zeros((wine_dataset.shape[1], 1))
-#
-##change lamda to change factor (0.01 and 0 are okay)
 
-print('*** WINE LR without Regression ***')
-# wine_LR = LogisticRegression(100, 0.2, lamda = None)
+print('*** WINE LR ***')
+# wine_LR = LogisticRegression(2500, 0.008)
 # k_fold_cross_validation(5, X_wine, Y_wine, wine_LR, 5.5, '', True, False)
 
-print('*** CANCER LR without Regression ***')
+print('*** CANCER LR ***')
 # cancer_LR = LogisticRegression(1200, 0.5, lamda = None)
 # k_fold_cross_validation(5, X_cancer, Y_cancer, cancer_LR, 3, '', True, False)
 
@@ -87,12 +72,28 @@ def chris3():
   fig1.savefig("graphs/cancer_interaction.png")
 
 print('*** WINE LR with Ridge Regularization ***')
-wine_LR_reg = LogisticRegression(2500, 0.008, lamda = 0.13)
+wine_LR_reg = LogisticRegression(2500, 0.008, reg='Ridge', lamda = 0.13)
 k_fold_cross_validation(5, X_wine, Y_wine, wine_LR_reg, 5.5, '', True, False)
 
 print('*** CANCER LR with Ridge Regularization ***')
-# cancer_LR_reg = LogisticRegression(1200, 0.5,lamda = 0.01)
+# cancer_LR_reg = LogisticRegression(1200, 0.5,reg='Ridge', lamda = 0.01)
 # k_fold_cross_validation(5, X_cancer, Y_cancer, cancer_LR_reg, 3, '', True, False)
+
+print('*** WINE LR with Lasso Regularization ***')
+# wine_LR_reg = LogisticRegression(1500, 0.2, reg='Lasso', lamda = 0.01)
+# k_fold_cross_validation(5, X_wine, Y_wine, wine_LR_reg, 5.5, '', True, False)
+
+print('*** CANCER LR with Lasso Regularization ***')
+# cancer_LR_reg = LogisticRegression(1200, 0.5, reg='Lasso', lamda = 0.01)
+# k_fold_cross_validation(5, X_cancer, Y_cancer, cancer_LR_reg, 3, '', True, False)
+
+print('*** WINE LR with Elastic Regularization ***')
+wine_LR_elastic = LogisticRegression(2500, 0.008, reg='Elastic', lamda = 0.13)
+k_fold_cross_validation(5, X_wine, Y_wine, wine_LR_elastic, 5.5, '', True, False)
+
+print('*** CANCER LR with Elastic Regularization ***')
+# cancer_LR_elastic = LogisticRegression(1200, 0.5,lamda = 0.01)
+# k_fold_cross_validation(5, X_cancer, Y_cancer, cancer_LR_elastic, 3, '', True, False)
 
 print('*** WINE LDA ***')
 #wine_LDA = LinearDiscriminantAnalysis()
@@ -101,5 +102,5 @@ print('*** WINE LDA ***')
 print('*** CANCER LDA ***')
 #cancer_LDA = LinearDiscriminantAnalysis()
 #k_fold_cross_validation(5, X_cancer2, Y_cancer2, cancer_LDA, 3, '', True, False)
-#
-# print("DONE")
+
+print("DONE")
