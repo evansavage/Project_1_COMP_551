@@ -77,11 +77,11 @@ def chris3():
   fig1.savefig("graphs/cancer_interaction.png")
 
 print('*** WINE LR with Ridge Regularization ***')
-wine_LR_reg = LogisticRegression(2500, 0.008, reg='Ridge', lamda = 0.13)
-k_fold_cross_validation(5, X_wine, Y_wine, wine_LR_reg, 5.5, '', True, False)
+# wine_LR_reg = LogisticRegression(2500, 0.008, reg='Ridge', lamda = 0.13)
+# k_fold_cross_validation(5, X_wine, Y_wine, wine_LR_reg, 5.5, '', True, False)
 
 print('*** CANCER LR with Ridge Regularization ***')
-# cancer_LR_reg = LogisticRegression(1200, 0.5,reg='Ridge', lamda = 0.01)
+# cancer_LR_reg = LogisticRegression(1200, 0.5, reg='Ridge', lamda = 0.001)
 # k_fold_cross_validation(5, X_cancer, Y_cancer, cancer_LR_reg, 3, '', True, False)
 
 print('*** WINE LR with Lasso Regularization ***')
@@ -93,19 +93,19 @@ print('*** CANCER LR with Lasso Regularization ***')
 # k_fold_cross_validation(5, X_cancer, Y_cancer, cancer_LR_reg, 3, '', True, False)
 
 print('*** WINE LR with Elastic Regularization ***')
-wine_LR_elastic = LogisticRegression(2500, 0.008, reg='Elastic', lamda = 0.13)
-k_fold_cross_validation(5, X_wine, Y_wine, wine_LR_elastic, 5.5, '', True, False)
+# wine_LR_elastic = LogisticRegression(2500, 0.008, reg='Elastic', lamda = 0.13)
+# k_fold_cross_validation(5, X_wine, Y_wine, wine_LR_elastic, 5.5, '', True, False)
 
 print('*** CANCER LR with Elastic Regularization ***')
-# cancer_LR_elastic = LogisticRegression(1200, 0.5,lamda = 0.01)
-# k_fold_cross_validation(5, X_cancer, Y_cancer, cancer_LR_elastic, 3, '', True, False)
+cancer_LR_elastic = LogisticRegression(1200, 0.5, reg='Elastic', lamda = 0.01)
+k_fold_cross_validation(5, X_cancer, Y_cancer, cancer_LR_elastic, 3, '', True, False)
 
 print('*** WINE LDA ***')
-#wine_LDA = LinearDiscriminantAnalysis()
-#k_fold_cross_validation(5, X_wine2, Y_wine2, wine_LDA, 5.5, '', True, False)
+wine_LDA = LinearDiscriminantAnalysis()
+k_fold_cross_validation(5, X_wine2, Y_wine2, wine_LDA, 5.5, '', True, False)
 
 print('*** CANCER LDA ***')
-#cancer_LDA = LinearDiscriminantAnalysis()
-#k_fold_cross_validation(5, X_cancer2, Y_cancer2, cancer_LDA, 3, '', True, False)
+cancer_LDA = LinearDiscriminantAnalysis()
+k_fold_cross_validation(5, X_cancer2, Y_cancer2, cancer_LDA, 3, '', True, False)
 
 print("DONE")
