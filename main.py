@@ -44,27 +44,30 @@ Y_cancer2 = Y_cancer.copy()
 #
 initial_theta_wine = np.zeros((wine_dataset.shape[1], 1))
 #
-wine_LR = LogisticRegression(100, 0.2, lamda = None)
-cancer_LR = LogisticRegression(1200, 0.5, lamda = None)
 ##change lamda to change factor (0.01 and 0 are okay)
-wine_LR_reg = LogisticRegression(100, 0.2, lamda = 0)
-cancer_LR_reg = LogisticRegression(1200, 0.5,lamda = 0)
-#
+
 print('*** WINE LR without Regression ***')
-k_fold_cross_validation(5, X_wine, Y_wine, wine_LR, 5.5, '', True, False)
+# wine_LR = LogisticRegression(100, 0.2, lamda = None)
+# k_fold_cross_validation(5, X_wine, Y_wine, wine_LR, 5.5, '', True, False)
+
 print('*** CANCER LR without Regression ***')
-k_fold_cross_validation(5, X_cancer, Y_cancer, cancer_LR, 3, '', True, False)
+# cancer_LR = LogisticRegression(1200, 0.5, lamda = None)
+# k_fold_cross_validation(5, X_cancer, Y_cancer, cancer_LR, 3, '', True, False)
+
 print('*** WINE LR with Ridge Regularization ***')
+wine_LR_reg = LogisticRegression(2500, 0.008, lamda = 0.15)
 k_fold_cross_validation(5, X_wine, Y_wine, wine_LR_reg, 5.5, '', True, False)
+
 print('*** CANCER LR with Ridge Regularization ***')
-k_fold_cross_validation(5, X_cancer, Y_cancer, cancer_LR_reg, 3, '', True, False)
-# #
-#wine_LDA = LinearDiscriminantAnalysis()
-#cancer_LDA = LinearDiscriminantAnalysis()
-#
+# cancer_LR_reg = LogisticRegression(1200, 0.5,lamda = 0.01)
+# k_fold_cross_validation(5, X_cancer, Y_cancer, cancer_LR_reg, 3, '', True, False)
+
 print('*** WINE LDA ***')
+#wine_LDA = LinearDiscriminantAnalysis()
 #k_fold_cross_validation(5, X_wine2, Y_wine2, wine_LDA, 5.5, '', True, False)
+
 print('*** CANCER LDA ***')
+#cancer_LDA = LinearDiscriminantAnalysis()
 #k_fold_cross_validation(5, X_cancer2, Y_cancer2, cancer_LDA, 3, '', True, False)
 #
 # print("DONE")

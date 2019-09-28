@@ -17,6 +17,7 @@ class LogisticRegression(object):
         self.learning_rate = learning_rate
         self.w = []
         self.lamda = lamda
+        print("Iter:", self.iter, "| LR:", self.learning_rate, "| Lamda:", self.lamda)
 
     def fit(self, X:np.array, Y:np.array, normalize=''):
 
@@ -37,7 +38,8 @@ class LogisticRegression(object):
             # print(sum_error)
             #Ridge Regression Regularization
             if self.lamda is not None:
-                self.w = self.learning_rate * (self.lamda * sum + np.sum(self.w))
+                # self.w = self.learning_rate * (self.lamda * sum + np.sum(self.w))
+                self.w = self.w + self.learning_rate * (sum + np.multiply(2 * self.lamda, self.w))
             else:
                 self.w = self.w + self.learning_rate * sum
 
