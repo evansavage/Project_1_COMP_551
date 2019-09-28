@@ -3,7 +3,7 @@ import numpy as np
 
 
 class LogisticRegression(object):
-    def __init__(self, iter:int, learning_rate:float):
+    def __init__(self, iter:int, learning_rate:float, lamda=None):
         """ Constructor for logistic regression model
         @params:
             -- iter : int = number of iterations
@@ -16,8 +16,12 @@ class LogisticRegression(object):
         self.iter = iter
         self.learning_rate = learning_rate
         self.w = []
+        self.lamda = lamda
+        print("Iter:", self.iter, "| LR:", self.learning_rate, "| Lamda:", self.lamda)
 
     def fit(self, X:np.array, Y:np.array, normalize=''):
+
+        self.costs = []
         # print(Y)
         if normalize == 'max':
             X = X / X.max(axis=0)
@@ -28,21 +32,39 @@ class LogisticRegression(object):
         for _ in range(self.iter):
             sum = 0
             for j, row in enumerate(X):
+                # row = [float(i) for i in row]
                 sigma = sigmoid(row, self.w)
                 sum += row * (Y[j] - sigma)
             # print(sum_error)
-            self.w = self.w + self.learning_rate*sum
+            #Ridge Regression Regularization
+            if self.lamda is not None:
+                # self.w = self.learning_rate * (self.lamda * sum + np.sum(self.w))
+                self.w = self.w + self.learning_rate * (sum + np.multiply(2 * self.lamda, self.w))
+            else:
+                self.w = self.w + self.learning_rate * sum
+
+            ##Update costs (not necessary for fixed theta)
+
+            # if np.all(abs(self.w) >= tolerance):
+            #     # Costs
+            #     if self.lamda is not None:
+            #         self.costs.append(reg_logLiklihood(X, self.w, Y, self.lamda))
+            #     else:
+            #         self.costs.append(logLiklihood(z, Y))
+            # else:
+            #     break
+
             # print(self.w)
 
     def predict(self, X:np.array):
         predictions = []
         X = np.insert(X, 0, 1, axis=1)
         for row in X:
-            a = np.matmul(np.transpose(self.w),row)
+            a = np.matmul(np.transpose(self.w), row)
             if a >= 0:
-                predictions.append(1.0 / (1.0 + np.exp(-a)))
+                predictions.append(np.round(1.0 / (1.0 + np.exp(-a))))
             else:
-                predictions.append(np.exp(a) / (1 + np.exp(a)))
+                predictions.append(np.round(np.exp(a) / (1 + np.exp(a))))
         return np.asarray(predictions).reshape(-1,1)
 
     # def fit_dummy(self, X:np.array, Y:np.array):
@@ -53,14 +75,13 @@ class LogisticRegression(object):
     #     """ dummy function for testing. TODO: remove later once predict  is complete returns all 1's in a column"""
     #     return np.ones((X_new.shape[0])).reshape(-1,1)
 
-
-def sigmoid(x:np.matrix, w:np.matrix):
-    a = np.matmul(np.transpose(w),x)
+def sigmoid(x, w:np.matrix):
+    # print(x, w)
+    a = np.matmul(np.transpose(w), x)
     if a >= 0:
         return 1.0 / (1.0 + math.exp(-a))
     else:
         return math.exp(a) / (1 + math.exp(a))
-
 
 # lr = LogisticRegression([[1,2,3],[4,5,6],[7,8,9]])
 # print(lr.dataset)
