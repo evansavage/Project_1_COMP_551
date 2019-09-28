@@ -65,6 +65,14 @@ def visualize_dataset(dataset):
     #     print(f'StdDev: { np.std(dataset[:, i])}')
     # print(file_name[:-4])
     # correlation = sns.load_dataset(file_name[:-4])
+    for i, j in enumerate(dataset.columns.values):
+        print(i)
+        plt.figure(f'{ j } (column { i })')
+        class0 = dataset.iloc[:, i] * (dataset.iloc[:, -1] <= 5)
+        class1 = dataset.iloc[:, i] * (dataset.iloc[:, -1] > 5)
+        sns.distplot(class0[class0 != 0])
+        sns.distplot(class1[class1 != 0])
+
     plt.figure('Heatmap')
     correlation = dataset.corr()
     sns.heatmap(correlation, annot=True)

@@ -10,7 +10,9 @@ from cross_validation import evaluate_acc, k_fold_cross_validation
 # load datasets
 wine_dataset = load_dataset('winequality-red.csv',
     ';',
-    # interaction=[['citric acid', 'fixed acidity'], ['density', 'fixed acidity']]
+    visualize=True,
+    # interaction=[['citric acid', 'fixed acidity'], ['density', 'fixed acidity']],
+    remove_columns=['pH', 'residual sugar']
     )
 breast_cancer_dataset = load_dataset('breast-cancer-wisconsin.data',
     ',',
@@ -55,7 +57,7 @@ print('*** CANCER LR without Regression ***')
 # k_fold_cross_validation(5, X_cancer, Y_cancer, cancer_LR, 3, '', True, False)
 
 print('*** WINE LR with Ridge Regularization ***')
-wine_LR_reg = LogisticRegression(2500, 0.008, lamda = 0.15)
+wine_LR_reg = LogisticRegression(2500, 0.008, lamda = 0.13)
 k_fold_cross_validation(5, X_wine, Y_wine, wine_LR_reg, 5.5, '', True, False)
 
 print('*** CANCER LR with Ridge Regularization ***')
