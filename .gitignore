@@ -1,5 +1,8 @@
 __pycache__
 .idea
+.vscode/*
 .vscode
 .pylintrc
 .vscode/settings.json
+settings.json
+

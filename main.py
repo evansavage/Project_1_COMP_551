@@ -51,11 +51,6 @@ def chris():
     plt.scatter(X_wine[:,i], Y_wine)
     plt.savefig(f"graphs/fig_{i}.png")
 
-
-# import matplotlib.backends.backend_pdf
-import matplotlib.gridspec as gridspec
-
-
 def chris2():
   fig1, f1_axes = plt.subplots(ncols=11,nrows=11)
   fig1.set_size_inches(30,30)
