@@ -42,11 +42,16 @@ Y_wine2 = Y_wine.copy()
 X_cancer2 = X_cancer.copy()
 Y_cancer2 = Y_cancer.copy()
 #
-wine_LR = LogisticRegression(100, 0.2)
-cancer_LR = LogisticRegression(1200, 0.5)
+initial_theta_wine = np.zeros((wine_dataset.shape[1], 1))
+lamda = 1
+#
+wine_LR_with_reg = LogisticRegression(100, 0.2, initial_theta_wine, lamda)
+#wine_LR = LogisticRegression(100, 0.2)
+#cancer_LR = LogisticRegression(1200, 0.5)
 #
 print('*** WINE LR ***')
-k_fold_cross_validation(5, X_wine, Y_wine, wine_LR, 5.5, '', True, False)
+k_fold_cross_validation(5, X_wine, Y_wine, wine_LR_with_reg, 5.5, '', True, False)
+#k_fold_cross_validation(5, X_wine, Y_wine, wine_LR, 5.5, '', True, False)
 print('*** CANCER LR ***')
 # k_fold_cross_validation(5, X_cancer, Y_cancer, cancer_LR, 3, '', True, False)
 # #
