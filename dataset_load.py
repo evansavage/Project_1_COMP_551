@@ -7,7 +7,7 @@ import seaborn as sns
 # (1,2) Download and load datasets into numpy objects
 
 def load_dataset(file_name:str, delimiter:str, *remove_first_index, **kwargs):
-    """load dataset from csv file into a numpy array"""
+    """load dataset from csv file into a numpy array. If remove_first_index is not None or False, remove the first column"""
     if remove_first_index:
         dataset = np.genfromtxt(file_name, delimiter=delimiter)[1:]
         dataset = dataset[:, 1:]
@@ -53,6 +53,36 @@ def visualize_dataset(file_name:str, delimiter:str, **kwargs):
         print(f'StdDev: { np.std(dataset[:, i])}')
     plt.show()
     return
+
+
+def getWineHeaderNames():
+  return np.array([
+    "fixed acidity",
+    "vliatile acidity",
+    "citric acid",
+    "sugar",
+    "chlorides",
+    "free SO2",
+    "total SO2",
+    "density",
+    "pH",
+    "sulphates",
+    "alcohol"
+  ])
+
+def getCancerHeaderNames():
+  return np.array([
+    "clump thickness",
+    "cell size uniformity",
+    "cell shape uniformity",
+    "marginal adhesionn",
+    "single epithelial cell size",
+    "bare nuclei",
+    "bland chromatin",
+    "normal nucleoli",
+    "mitoses"
+  ])
+
 
 # wine_dataset = load_dataset('winequality-red.csv', ';')
 # breast_cancer_dataset = load_dataset('breast-cancer-wisconsin.data', ',')

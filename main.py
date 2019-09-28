@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.pyplot as plt
 
 # import files from split project
 from dataset_load import load_dataset, clean_dataset_nan, visualize_dataset
@@ -6,9 +7,13 @@ from logistic_regression import LogisticRegression
 from linear_discriminant_analysis import LinearDiscriminantAnalysis
 from cross_validation import evaluate_acc, k_fold_cross_validation
 
+
+
 # load datasets
-wine_dataset = load_dataset('winequality-red.csv', ';', [])
+wine_dataset = load_dataset('winequality-red.csv', ';')
 breast_cancer_dataset = load_dataset('breast-cancer-wisconsin.data', ',', [1])
+
+wine_headers = [""]
 
 # data clearning
 wine_dataset = clean_dataset_nan(wine_dataset)
@@ -46,3 +51,36 @@ cancer_LR = LogisticRegression(100, 0.3)
 # k_fold_cross_validation(5, X_cancer2, Y_cancer2, cancer_LDA, 3, '', True, False)
 
 print("DONE")
+
+
+def chris():
+  for i in range(X_wine.shape[1]):
+    plt.figure()
+    plt.scatter(X_wine[:,i], Y_wine)
+    plt.savefig(f"graphs/fig_{i}.png")
+
+
+# import matplotlib.backends.backend_pdf
+import matplotlib.gridspec as gridspec
+
+
+def chris2():
+  fig1, f1_axes = plt.subplots(ncols=11,nrows=11)
+  fig1.set_size_inches(30,30)
+
+  for i in range(11):
+    for j in range(11):
+      f1_axes[i][j].scatter(X_wine[:,i]*X_wine[:,j], Y_wine)
+
+  fig1.savefig("graphs/wine_interaction.png")
+
+def chris3():
+  fig1, f1_axes = plt.subplots(ncols=9,nrows=9)
+  fig1.set_size_inches(30,30)
+
+  for i in range(9):
+    for j in range(9):
+      f1_axes[i][j].scatter(X_cancer[:,i]*X_cancer[:,j], Y_cancer)
+
+  fig1.savefig("graphs/cancer_interaction.png")
+
