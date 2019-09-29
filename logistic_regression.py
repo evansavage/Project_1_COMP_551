@@ -3,11 +3,12 @@ import numpy as np
 
 
 class LogisticRegression(object):
-    def __init__(self, iter:int, learning_rate:float, reg=None, lamda=None):
+    def __init__(self, iter:int, learning_rate:float, reg:string=None, lamda=None):
         """ Constructor for logistic regression model
         @params:
             -- iter : int = number of iterations
             -- learning_rate : float = how quickly the algorithm converges
+            -- reg. regularization type ['Elastic' | 'Ridge' | 'Lasso']
             """
         # dataset = np.asarray(features)
         # self.labels = dataset[:,-1]
