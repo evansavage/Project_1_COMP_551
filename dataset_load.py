@@ -28,6 +28,7 @@ def load_dataset(file_name:str, delimiter:str, remove_columns:list=[], visualize
     return dataset.values
 
 def visualize_dataset(dataset):
+    """visualize dataset with seaborn figures"""
     for i, j in enumerate(dataset.columns.values):
         print(i)
         plt.figure(f'{ j } (column { i })')
@@ -43,35 +44,8 @@ def visualize_dataset(dataset):
     return
 
 
-def getWineHeaderNames():
-  return np.array([
-    "fixed acidity",
-    "vliatile acidity",
-    "citric acid",
-    "sugar",
-    "chlorides",
-    "free SO2",
-    "total SO2",
-    "density",
-    "pH",
-    "sulphates",
-    "alcohol"
-  ])
-
-def getCancerHeaderNames():
-  return np.array([
-    "clump thickness",
-    "cell size uniformity",
-    "cell shape uniformity",
-    "marginal adhesionn",
-    "single epithelial cell size",
-    "bare nuclei",
-    "bland chromatin",
-    "normal nucleoli",
-    "mitoses"
-  ])
-
 def add_interaction_terms(dataset, interaction):
+    """adds interaction terms and nonlinear features to the model"""
     new_columns = []
     for i in interaction:
         new_columns.append(dataset[i[0]] * dataset[i[1]])

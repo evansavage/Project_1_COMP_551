@@ -3,11 +3,13 @@ import numpy as np
 
 
 class LogisticRegression(object):
-    def __init__(self, iter:int, learning_rate:float, reg=None, lamda=None):
+    def __init__(self, iter:int, learning_rate:float, reg:str=None, lamda:float=None):
         """ Constructor for logistic regression model
         @params:
             -- iter : int = number of iterations
             -- learning_rate : float = how quickly the algorithm converges
+            -- reg : regularization type ['Elastic' | 'Ridge' | 'Lasso']
+            -- labda : regularization coefficient
             """
         # dataset = np.asarray(features)
         # self.labels = dataset[:,-1]
@@ -18,14 +20,22 @@ class LogisticRegression(object):
         self.w = []
         self.lamda = lamda
         self.reg = reg
+        self.trackw = False
         if self.reg:
             print("Iter:", self.iter, "| LR:", self.learning_rate, "| Reg:", self.reg, "| Lamda:", self.lamda)
         else:
             print("Iter:", self.iter, "| LR:", self.learning_rate)
 
-    def fit(self, X:np.array, Y:np.array, normalize=''):
-
+    def fit(self, X:np.array, Y:np.array, normalize:str=''):
+        """
+        Fit logisitic regression / gradient descent model
+        @params:
+            -- X: training examples without label
+            -- Y: training labels
+            -- normalize: string name of normalizing function ['' (none), 'max', 'scale']
+        """
         self.costs = []
+        self.ws = [] # list of training errors to determine convergence speed
         # print(Y)
         if normalize == 'max':
             X = X / X.max(axis=0)
@@ -41,6 +51,8 @@ class LogisticRegression(object):
                 sum += row * (Y[j] - sigma)
             # print(sum_error)
             #Ridge Regression Regularization
+            if self.trackw:
+                self.ws.append(self.w)
             if self.reg:
                 if self.reg == 'Ridge':
                     if self.lamda is not None:
@@ -63,7 +75,14 @@ class LogisticRegression(object):
             else:
                 self.w = self.w + self.learning_rate * sum
 
+
+
     def predict(self, X:np.array):
+        """
+        Predict output using already trained model
+        @params:
+            -- X: input data for prediciton
+        """
         predictions = []
         X = np.insert(X, 0, 1, axis=1)
         for row in X:
@@ -83,6 +102,9 @@ class LogisticRegression(object):
     #     return np.ones((X_new.shape[0])).reshape(-1,1)
 
 def sigmoid(x, w:np.matrix):
+    """
+    Numerically stable sigmoid function.
+    """
     # print(x, w)
     a = np.matmul(np.transpose(w), x)
     if a >= 0:

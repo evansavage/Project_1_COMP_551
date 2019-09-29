@@ -9,8 +9,6 @@ from logistic_regression import LogisticRegression
 from linear_discriminant_analysis import LinearDiscriminantAnalysis
 from cross_validation import evaluate_acc, k_fold_cross_validation
 
-
-
 # load datasets
 wine_dataset = load_dataset('winequality-red.csv',
     ';',
@@ -37,49 +35,16 @@ Y_wine2 = Y_wine.copy()
 X_cancer2 = X_cancer.copy()
 Y_cancer2 = Y_cancer.copy()
 
-def chris():
-  for i in range(X_wine.shape[1]):
-    plt.figure()
-    plt.scatter(X_wine[:,i], Y_wine)
-    plt.savefig(f"graphs/fig_{i}.png")
-
-def chris2():
-  fig1, f1_axes = plt.subplots(ncols=11,nrows=11)
-  fig1.set_size_inches(30,30)
-
-  for i in range(11):
-    for j in range(11):
-      f1_axes[i][j].scatter(X_wine[:,i]*X_wine[:,j], Y_wine)
-
-  fig1.savefig("graphs/wine_interaction.png")
-
-def chris3():
-  fig1, f1_axes = plt.subplots(ncols=9,nrows=9)
-  fig1.set_size_inches(30,30)
-
-  for i in range(9):
-    for j in range(9):
-      f1_axes[i][j].scatter(X_cancer[:,i]*X_cancer[:,j], Y_cancer)
-
-  fig1.savefig("graphs/cancer_interaction.png")
-
-# print('*** WINE LR ***')
-# start = time.time()
+print('*** WINE LR ***')
 # wine_LR = LogisticRegression(2500, 0.008)
 # k_fold_cross_validation(5, X_wine, Y_wine, wine_LR, 5.5, '', True, False)
-# end = time.time()
-# print(end - start)
-#
-# print('*** CANCER LR ***')
-# start = time.time()
-# cancer_LR = LogisticRegression(1200, 0.5)
+
+print('*** CANCER LR ***')
+# cancer_LR = LogisticRegression(1200, 0.5, lamda = None)
 # k_fold_cross_validation(5, X_cancer, Y_cancer, cancer_LR, 3, '', True, False)
-# end = time.time()
-# print(end - start)
-#
-# print('*** WINE LR with Ridge Regularization ***')
-# start = time.time()
-# wine_LR_reg = LogisticRegression(2500, 0.009, reg='Ridge', lamda = 0.1)
+
+print('*** WINE LR with Ridge Regularization ***')
+# wine_LR_reg = LogisticRegression(2500, 0.008, reg='Ridge', lamda = 0.13)
 # k_fold_cross_validation(5, X_wine, Y_wine, wine_LR_reg, 5.5, '', True, False)
 # end = time.time()
 # print(end - start)
