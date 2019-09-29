@@ -13,26 +13,19 @@ def load_dataset(file_name:str, delimiter:str, remove_columns:list=[], visualize
     if remove_columns:
         for column in remove_columns:
             del dataset[column]
-    # print(dataset.shape)
+
     for index, row in dataset.iterrows():
         if '?' in row.values:
             dataset.drop(index, inplace=True)
-    # print(dataset.shape)
+
     if interaction:
         dataset = add_interaction_terms(dataset, interaction)
     if visualize:
         visualize_dataset(dataset)
     dataset = dataset.apply(pd.to_numeric)
     dataset.dropna()
-    # print(dataset.dtypes)
+
     return dataset.values
-
-# def clean_dataset_nan(dataset:np.array):
-#     """Remove any elements which contain NaN or empty values"""
-#     return dataset[~np.isnan(dataset).any(axis=1)]
-
-
-
 
 def visualize_dataset(dataset):
     for i, j in enumerate(dataset.columns.values):

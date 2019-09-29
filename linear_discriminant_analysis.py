@@ -2,9 +2,6 @@ import numpy as np
 
 class LinearDiscriminantAnalysis:
     def __init__(self):
-        # dataset = np.asarray(dataset)
-        # self.features = dataset[:, :-1]
-        # self.labels = dataset[:, -1]
         self.w = []
 
     def fit(self, X:np.array, Y:np.array, normalize=''):
@@ -44,12 +41,10 @@ class LinearDiscriminantAnalysis:
             elif Y[i] == 1:
                 sigma_1 += np.matmul(X[i] - mu_1, np.transpose(X[i] - mu_1))
         sigma = (sigma_0 + sigma_1) / (len(Y) - 2)
-        # print(sigma)
         self.w[0] = np.log(py_1/py_0) \
             - 0.5 * np.matmul(np.transpose(mu_1), mu_1) / sigma \
             + 0.5 * np.matmul(np.transpose(mu_0), mu_0) / sigma
         self.w[1:] = (mu_1 - mu_0) / sigma
-        # print('COEF:', self.w)
 
     def predict(self, X:np.array):
         predictions = []
