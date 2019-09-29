@@ -1,7 +1,6 @@
 import math
 import numpy as np
 
-
 class LogisticRegression(object):
     def __init__(self, iter:int, learning_rate:float, reg:str=None, lamda:float=None):
         """ Constructor for logistic regression model
@@ -9,12 +8,8 @@ class LogisticRegression(object):
             -- iter : int = number of iterations
             -- learning_rate : float = how quickly the algorithm converges
             -- reg : regularization type ['Elastic' | 'Ridge' | 'Lasso']
-            -- labda : regularization coefficient
+            -- lamda : regularization coefficient
             """
-        # dataset = np.asarray(features)
-        # self.labels = dataset[:,-1]
-        # dataset = np.insert(dataset, 0, 1, axis=1)
-        # self.dataset = dataset
         self.iter = iter
         self.learning_rate = learning_rate
         self.w = []
@@ -36,7 +31,7 @@ class LogisticRegression(object):
         """
         self.costs = []
         self.ws = [] # list of training errors to determine convergence speed
-        # print(Y)
+
         if normalize == 'max':
             X = X / X.max(axis=0)
         elif normalize == 'scale':
@@ -46,10 +41,8 @@ class LogisticRegression(object):
         for _ in range(self.iter):
             sum = 0
             for j, row in enumerate(X):
-                # row = [float(i) for i in row]
                 sigma = sigmoid(row, self.w)
                 sum += row * (Y[j] - sigma)
-            # print(sum_error)
             #Ridge Regression Regularization
             if self.trackw:
                 self.ws.append(self.w)
@@ -75,8 +68,6 @@ class LogisticRegression(object):
             else:
                 self.w = self.w + self.learning_rate * sum
 
-
-
     def predict(self, X:np.array):
         """
         Predict output using already trained model
@@ -93,25 +84,12 @@ class LogisticRegression(object):
                 predictions.append(np.round(np.exp(a) / (1 + np.exp(a))))
         return np.asarray(predictions).reshape(-1,1)
 
-    # def fit_dummy(self, X:np.array, Y:np.array):
-    #     """ dummy function for testing. TODO: remove later once fit is complete returns all 1's in a column"""
-    #     return None
-    #
-    # def predict_dummy(self, X_new:np.array):
-    #     """ dummy function for testing. TODO: remove later once predict  is complete returns all 1's in a column"""
-    #     return np.ones((X_new.shape[0])).reshape(-1,1)
-
 def sigmoid(x, w:np.matrix):
     """
     Numerically stable sigmoid function.
     """
-    # print(x, w)
     a = np.matmul(np.transpose(w), x)
     if a >= 0:
         return 1.0 / (1.0 + math.exp(-a))
     else:
         return math.exp(a) / (1 + math.exp(a))
-
-# lr = LogisticRegression([[1,2,3],[4,5,6],[7,8,9]])
-# print(lr.dataset)
-# print(lr.labels)

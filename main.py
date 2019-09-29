@@ -7,20 +7,18 @@ import time
 from dataset_load import load_dataset
 from logistic_regression import LogisticRegression
 from linear_discriminant_analysis import LinearDiscriminantAnalysis
-from cross_validation import evaluate_acc, k_fold_cross_validation
+from cross_validation import k_fold_cross_validation
 
 # load datasets
 wine_dataset = load_dataset('winequality-red.csv',
     ';',
-    visualize=True,
     # interaction=[['citric acid', 'fixed acidity'], ['density', 'fixed acidity']],
     # remove_columns=['pH', 'residual sugar']
     )
 breast_cancer_dataset = load_dataset('breast-cancer-wisconsin.data',
     ',',
-    # visualize=True,
     # interaction=[['Uniformity of Cell Shape', 'Uniformity of Cell Size']],
-    remove_columns=['Sample code number']
+    # remove_columns=['Sample code number']
     )
 
 X_wine = wine_dataset[:,:-1]
