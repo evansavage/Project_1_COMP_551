@@ -8,8 +8,6 @@ from logistic_regression import LogisticRegression
 from linear_discriminant_analysis import LinearDiscriminantAnalysis
 from cross_validation import evaluate_acc, k_fold_cross_validation
 
-
-
 # load datasets
 wine_dataset = load_dataset('winequality-red.csv',
     ';',

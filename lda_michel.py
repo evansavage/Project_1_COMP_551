@@ -2,6 +2,7 @@ import numpy as np
 
 
 class Lda2:
+    """Class used in development of LDA method. Not used in final fitting/preditions"""
     def __init__(self):
         self.w = []
 
